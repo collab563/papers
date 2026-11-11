@@ -1,0 +1,6 @@
+quimb
+opt_einsum
+sympy
+numpy
+torch
+pytest

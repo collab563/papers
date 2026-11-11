@@ -1,0 +1,554 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Computational Verification and 2D Tensor Network Analysis of Multi-Layer Crown Order Polytope Numerators}
+\author{Wendel León Alvarado}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We study Ehrhart $h^*$-polynomials of order polytopes associated with the multilayer crown posets $C_{k,n}$. A proposed reduction to a one-dimensional transfer trace is valid in height two but fails already for $C_{3,3}$: at dilation one, the exact lattice-point count is $28$, whereas the proposed trace gives $18$. We express the count as a contraction of a cylindrical two-dimensional tensor network with local bond dimension $D=m+1$. The contraction uses an optimized hierarchical order of multilinear tensor operations, summing shared indices according to Einstein convention, without boundary-rank truncation; the Ehrhart numerator is then recovered exactly from lattice-point counts by solving a triangular system in the binomial basis over $\mathbb{Z}$. Rational Sturm sequences certify simple, strictly negative real roots in 14 cases, including $C_{7,4}$ of degree 21. Exact symbolic reconstruction over $\mathbb{Q}[t]$ yields recurrences of order $n-1$ for the tested circumferences $n=3,4$. A universal recurrence of this order is formulated as a conjecture. These results constitute finite evidence, not a proof for all $k,n$.
+\end{abstract}
+
+\small\noindent\textbf{Keywords:} Crown posets, Ehrhart polynomials, tensor networks, Sturm method, real-rootedness.
+\normalsize
+
+\section{Introduction \& Background}
+
+For a finite poset $P$, its order polytope is
+\begin{equation}
+\mathcal{O}(P)=\{x\in[0,1]^P : x_u\le x_v\text{ whenever }u\le_P v\}.
+\end{equation}
+It is a full-dimensional lattice polytope of dimension $|P|$; its vertices are the characteristic vectors of upper sets of $P$ \cite{Stanley1986}.
+
+Fix integers $k\ge2$ and $n\ge3$. The poset $C_{k,n}$ has elements $x_{j,i}$ for $1\le j\le k$ and $i\in\mathbb{Z}/n\mathbb{Z}$. Its cover relations are
+\begin{equation}
+x_{j,i}\prec x_{j+1,i},\qquad x_{j,i}\prec x_{j+1,i+1}
+\quad (1\le j<k),
+\end{equation}
+where the second index is read cyclically. The rank of $x_{j,i}$ is $j-1$, and $C_{k,n}$ has $d=kn$ elements.
+
+Let
+\begin{equation}
+L_{k,n}(m)=|m\mathcal{O}(C_{k,n})\cap\mathbb{Z}^{d}|,
+\qquad
+\sum_{m\ge0}L_{k,n}(m)t^m=\frac{H_{k,n}(t)}{(1-t)^{d+1}}.
+\end{equation}
+Thus $H_{k,n}(t)=h^*(\mathcal{O}(C_{k,n}),t)$ and $H_{k,n}(0)=1$.
+
+Lundström and Saud Maia Leite formulated the real-rootedness conjecture
+for the simple one-dimensional crown family in work originating in 2025
+\cite{LundstromLeite2026}; Cao and Fu subsequently proved the height-two
+case $k=2$ \cite{CaoFu2026}. The present computational study addresses the
+multilayer families $C_{k,n}$ with $k\ge3$. Its contributions are the
+failure of the proposed one-dimensional transfer trace beyond height two,
+a cylindrical two-dimensional tensor-network contraction, exact
+reconstruction of the Ehrhart numerators, and finite-data recurrence
+discovery. The recurrence and root-location statements for arbitrary
+parameters remain conjectural.
+
+\subsection{Methodological correction: the one-dimensional trace}
+
+For $N\ge1$, define the matrix $K_N=(\min(a,b))_{1\le a,b\le N}$. In height two, setting $N=m+1$ gives the transfer identity
+\begin{equation}\label{eq:height-two-trace}
+L_{2,n}(m)=\operatorname{tr}(K_N^n).
+\end{equation}
+Indeed, fix the values on the bottom layer. For adjacent values $a_{i-1},a_i$, the top-layer value at their common upper neighbor has $N-\max(a_{i-1},a_i)$ choices. Replacing each bottom value $a_i$ by $N-a_i$ turns this factor into the matrix entry $\min(N-a_{i-1},N-a_i)$. Summing around the cycle yields \eqref{eq:height-two-trace}.
+
+\subsection{Failure of the proposed higher-layer extension}
+
+The height-two derivation sums out one layer and leaves pairwise interactions between neighboring values on a single cycle. With three or more layers, the intermediate variables remain coupled through two-dimensional local constraints; replacing those constraints by the proposed single transfer matrix does not preserve the count. The following exact example disproves that proposed extension.
+
+\begin{proposition}\label{prop:transfer-counterexample}
+For $C_{3,3}$ at dilation $m=1$, the lattice-point count is
+\[
+L_{3,3}(1)=28,
+\]
+whereas the proposed one-dimensional formula gives $\operatorname{tr}(K_2^3)=18$.
+\end{proposition}
+
+\begin{proof}
+At $m=1$, represent each layer by the subset of its three cyclic positions assigned value $1$. A subset $A$ in one layer forces the next layer to contain $A\cup(A+1)$. Counting the compatible layer choices gives $18+6+3+1=28$. In contrast,
+\[
+K_2=\begin{pmatrix}1&1\\1&2\end{pmatrix},
+\qquad \operatorname{tr}(K_2^3)=18.
+\]
+The two counts differ, so the proposed one-dimensional transfer-trace identity is not valid uniformly for $k\ge3$.
+\end{proof}
+
+\begin{remark}
+This counterexample rules out the stated transfer-trace reduction; it does not rule out other one-dimensional representations for special parameters, nor does it disprove Conjecture~\ref{conj:realrooted}.
+\end{remark}
+
+\section{2D Boundary MPS Tensor Network Engine}
+
+\subsection{Local factor and exact lattice-point count}
+
+For a fixed dilation $m\ge0$, each coordinate takes values in $\{0,\ldots,m\}$. Define the local tensor
+\begin{equation}\label{eq:local-tensor}
+T_{a,b,c}=
+\begin{cases}
+1,&c\ge\max(a,b),\\
+0,&\text{otherwise},
+\end{cases}
+\qquad 0\le a,b,c\le m.
+\end{equation}
+Its three indices have link dimension $D=m+1$. The indices $a,b$ encode adjacent values in one layer, and $c$ encodes the value above them. Thus the local factor enforces the required order constraint $x_{j+1,i}\ge\max(x_{j,i},x_{j,i+1})$.
+
+The complete cylindrical network is the factor-graph contraction
+\begin{equation}\label{eq:tensor-count}
+L_{k,n}(m)=
+\sum_{\substack{x_{j,i}\in\{0,\ldots,m\}\\
+1\le j\le k,\ i\in\mathbb{Z}/n\mathbb{Z}}}
+\prod_{j=1}^{k-1}\prod_{i\in\mathbb{Z}/n\mathbb{Z}}
+T_{x_{j,i},\,x_{j,i+1},\,x_{j+1,i}}.
+\end{equation}
+The cyclic index creates the periodic boundary in the circumferential direction. Each coordinate is summed once, and every factor in the product enforces one local cover constraint.
+
+\subsection{Boundary contraction and numerical modes}
+
+The tensor network is contracted by organizing its multilinear factors
+along the discrete cylindrical boundary and selecting an efficient
+hierarchy of index contractions. This is an exact contraction of the
+entire network: no boundary-rank compression or singular-value
+truncation is applied. Accordingly, ``Boundary MPS'' refers here to the
+boundary organization of the tensor contraction, not to an approximate
+matrix-product-state method.
+
+The exact contraction is carried out over arbitrary-precision integers,
+so \eqref{eq:tensor-count} involves no floating-point rounding. For
+spectral exploration, a separate numerical evaluation uses real or
+complex double-precision tensor arithmetic on the selected computing
+device. Numerical values are not used as integer certificates.
+
+\section{Exact Algebraic Reconstruction \& Verification Results}
+
+\subsection{Exact reconstruction of the Ehrhart numerator}
+
+Put $d=kn$. Ehrhart theory gives
+\begin{equation}\label{eq:binomial-basis}
+L_{k,n}(m)=\sum_{j=0}^{d}h_j\binom{m+d-j}{d},
+\qquad H_{k,n}(t)=\sum_{j=0}^{d}h_jt^j.
+\end{equation}
+We evaluate \eqref{eq:tensor-count} for $m=0,1,\ldots,d$ and solve the
+resulting triangular linear system by exact integer arithmetic. The
+coefficients above the structural degree $d-k$ vanish. No
+floating-point interpolation is used.
+
+\subsection{Exact results}
+
+Table~\ref{tab:exact} reports the exact numerators obtained by tensor
+contraction and binomial-basis reconstruction. All 14 tested cases
+(100\%) have a rational Sturm certificate. In every case, the
+Sturm count on $(-\infty,0)$ equals the degree and
+$\gcd(H_{k,n},H'_{k,n})=1$, certifying that all roots are real, strictly
+negative, and simple. The palindromic coefficients agree with the
+reciprocity relation proved in Section~\ref{sec:structure}. The new boundary
+case $C_{7,4}$ has degree $21$ and central coefficient
+$56{,}806{,}162{,}004\approx5.68\times10^{10}$.
+
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{@{}c c >{\raggedright\arraybackslash}p{0.49\textwidth} c c c@{}}
+\caption{Complete exact dataset: $h^*$-polynomials, Sturm root counts, and JSON certificates.}\label{tab:exact}\\
+\toprule
+$k$ & $n$ & $H_{k,n}(t)$ & Degree & Negative roots & Certificate\\
+\midrule
+\endfirsthead
+\caption[]{Complete exact dataset (continued).}\\
+\toprule
+$k$ & $n$ & $H_{k,n}(t)$ & Degree & Negative roots & Certificate\\
+\midrule
+\endhead
+\midrule
+\multicolumn{6}{r@{}}{\emph{Continued on next page}}\\
+\endfoot
+\bottomrule
+\endlastfoot
+2 & 3 &
+$\begin{aligned}[t]
+t^4 &{}+11t^3+24t^2+11t+1
+\end{aligned}$ & 4 & 4/4 & Sturm + JSON\\
+3 & 3 &
+$\begin{aligned}[t]
+t^6 &{}+18t^5+93t^4+160t^3\\
+&{}+93t^2+18t+1
+\end{aligned}$ & 6 & 6/6 & Sturm + JSON\\
+4 & 3 &
+$\begin{aligned}[t]
+t^8 &{}+25t^7+211t^6+739t^5\\
+&{}+1120t^4+739t^3+211t^2\\
+&{}+25t+1
+\end{aligned}$ & 8 & 8/8 & Sturm + JSON\\
+3 & 4 &
+$\begin{aligned}[t]
+t^9 &{}+69t^8+1204t^7+7164t^6\\
+&{}+16906t^5+16906t^4+7164t^3\\
+&{}+1204t^2+69t+1
+\end{aligned}$ & 9 & 9/9 & Sturm + JSON\\
+5 & 3 &
+$\begin{aligned}[t]
+t^{10} &{}+32t^9+378t^8+2088t^7\\
+&{}+5757t^6+8064t^5+5757t^4\\
+&{}+2088t^3+378t^2+32t+1
+\end{aligned}$ & 10 & 10/10 & Sturm + JSON\\
+4 & 4 &
+$\begin{aligned}[t]
+t^{12} &{}+100t^{11}+3058t^{10}+37164t^9\\
+&{}+204639t^8+553200t^7+767068t^6\\
+&{}+553200t^5+204639t^4+37164t^3\\
+&{}+3058t^2+100t+1
+\end{aligned}$ & 12 & 12/12 & Sturm + JSON\\
+6 & 3 &
+$\begin{aligned}[t]
+t^{12} &{}+39t^{11}+594t^{10}+4550t^9\\
+&{}+19005t^8+44547t^7+59136t^6\\
+&{}+44547t^5+19005t^4+4550t^3\\
+&{}+594t^2+39t+1
+\end{aligned}$ & 12 & 12/12 & Sturm + JSON\\
+3 & 5 &
+$\begin{aligned}[t]
+t^{12} &{}+228t^{11}+11096t^{10}+175640t^9\\
+&{}+1128655t^8+3314308t^7+4717744t^6\\
+&{}+3314308t^5+1128655t^4+175640t^3\\
+&{}+11096t^2+228t+1
+\end{aligned}$ & 12 & 12/12 & Sturm + JSON\\
+7 & 3 &
+$\begin{aligned}[t]
+t^{14} &{}+46t^{13}+859t^{12}+8468t^{11}\\
+&{}+48263t^{10}+165086t^9+344061t^8\\
+&{}+439296t^7+344061t^6+165086t^5\\
+&{}+48263t^4+8468t^3+859t^2+46t+1
+\end{aligned}$ & 14 & 14/14 & Sturm + JSON\\
+5 & 4 &
+$\begin{aligned}[t]
+t^{15} &{}+131t^{14}+5869t^{13}+116355t^{12}\\
+&{}+1144241t^{11}+6007079t^{10}+17690249t^9\\
+&{}+30135467t^8+30135467t^7+17690249t^6\\
+&{}+6007079t^5+1144241t^4+116355t^3\\
+&{}+5869t^2+131t+1
+\end{aligned}$ & 15 & 15/15 & Sturm + JSON\\
+8 & 3 &
+$\begin{aligned}[t]
+t^{16} &{}+53t^{15}+1173t^{14}+14185t^{13}\\
+&{}+103331t^{12}+473631t^{11}+1393927t^{10}\\
+&{}+2657795t^9+3294720t^8+2657795t^7\\
+&{}+1393927t^6+473631t^5+103331t^4\\
+&{}+14185t^3+1173t^2+53t+1
+\end{aligned}$ & 16 & 16/16 & Sturm + JSON\\
+4 & 5 &
+$\begin{aligned}[t]
+t^{16} &{}+349t^{15}+32235t^{14}+1090390t^{13}\\
+&{}+16336920t^{12}+122193552t^{11}\\
+&{}+491902733t^{10}+1115855805t^9\\
+&{}+1462319070t^8+1115855805t^7\\
+&{}+491902733t^6+122193552t^5\\
+&{}+16336920t^4+1090390t^3+32235t^2+349t+1
+\end{aligned}$ & 16 & 16/16 & Sturm + JSON\\
+6 & 4 &
+$\begin{aligned}[t]
+t^{18} &{}+162t^{17}+9641t^{16}+273808t^{15}\\
+&{}+4129580t^{14}+35320040t^{13}\\
+&{}+179517436t^{12}+560710448t^{11}\\
+&{}+1100896046t^{10}+1376570220t^9\\
+&{}+1100896046t^8+560710448t^7\\
+&{}+179517436t^6+35320040t^5+4129580t^4\\
+&{}+273808t^3+9641t^2+162t+1
+\end{aligned}$ & 18 & 18/18 & Sturm + JSON\\
+7 & 4 &
+$ \begin{aligned}[t]
+t^{21} &{}+193t^{20}+14374t^{19}+539238t^{18}\\
+&{}+11319081t^{17}+141272409t^{16}\\
+&{}+1094268784t^{15}+5432987952t^{14}\\
+&{}+17714213382t^{13}+38591690550t^{12}\\
+&{}+56806162004t^{11}+56806162004t^{10}\\
+&{}+38591690550t^9+17714213382t^8\\
+&{}+5432987952t^7+1094268784t^6\\
+&{}+141272409t^5+11319081t^4+539238t^3\\
+&{}+14374t^2+193t+1
+\end{aligned}$ & 21 & 21/21 & Sturm + JSON\\
+\end{longtable}
+\normalsize
+
+\subsection{Sanity Checks \& Data Verification}
+
+The 14 certified polynomials were checked against the exact coefficient
+lists in the JSON artifacts. Each satisfies
+\[
+H_{k,n}(0)=1,\qquad
+t^{k(n-1)}H_{k,n}(1/t)=H_{k,n}(t),\qquad
+\deg H_{k,n}=k(n-1).
+\]
+The second identity is strict palindromicity (the Gorenstein reciprocity
+of these Ehrhart numerators); the degree agrees with
+Lemma~\ref{lem:structure}. Independently, the JSON Sturm certificates
+record a negative-root count equal to the degree and a square-free check
+for each of the 14 cases. Thus these checks apply to the listed finite
+dataset, not to the full infinite family.
+
+\subsection{Rational Sturm certificates}
+
+For a polynomial $H\in\mathbb{Z}[t]$, we form its Sturm sequence over $\mathbb{Q}$. Sign variations at $-\infty$ and at $0$ give the exact number of distinct roots in $(-\infty,0)$; this calculation involves rational polynomial arithmetic, not approximate root locations. Simplicity is checked independently by verifying $\gcd(H,H')=1$. If the negative-root count equals $\deg H$ and the gcd condition holds, all roots are real, simple, and strictly negative.
+
+Sturm sequences can also isolate individual roots: for rational endpoints $a<b$, the difference in sign variations at $a$ and $b$ counts the roots in $(a,b)$, and rational bisection can refine an interval until it contains exactly one root. The current JSON output records the exact polynomial and Sturm-sequence coefficients, endpoint sign lists, variation counts, root count, and simplicity/reciprocity checks; it does not report decimal approximations as certificates.
+
+Exact rational Sturm sequences and root isolations were computed for all
+14 configurations, including $n=3$ for $k=2,\ldots,8$ and $n=4$ for
+$k=3,\ldots,7$. Each execution produces an exact JSON certificate
+recording the square-freeness verification, degree check, and endpoint
+sign variations over $\mathbb{Q}$. The 14 exact certificates are
+structured in JSON format, named
+\texttt{certificado\_k\_n.json}, and available in the project's
+supplementary repository.
+\footnote{Execution scripts, CLI usage, and raw JSON certificate files are available in the open-source repository associated with this paper.}
+
+\subsection{Degree and reciprocity}\label{sec:structure}
+
+\begin{lemma}\label{lem:structure}
+For $k\ge2$ and $n\ge3$, $H_{k,n}(t)$ is monic of degree $kn-k$ and satisfies
+\begin{equation}\label{eq:reciprocity}
+H_{k,n}(t)=t^{kn-k}H_{k,n}(1/t).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let $P=C_{k,n}$ and $d=kn$. Lattice points of $m\mathcal{O}(P)$ are weakly order-preserving maps $P\to\{0,1,\ldots,m\}$. Interior lattice points are maps $f:P\to\{1,\ldots,m-1\}$ that are strictly increasing on every cover relation.
+
+Every maximal chain has $k$ elements. An interior lattice point therefore requires at least $k$ available integer values, so the smallest dilation with an interior lattice point is $m=k+1$. At this dilation, each vertical chain $x_{1,i}\prec\cdots\prec x_{k,i}$ forces $f(x_{j,i})=j$; these values satisfy all cover relations, giving exactly one interior lattice point. The codegree is consequently $k+1$. The standard degree-codegree relation for Ehrhart numerators gives $\deg H_{k,n}=d+1-(k+1)=d-k$, and the top coefficient equals the number of interior lattice points at the codegree, namely one. Thus $H_{k,n}$ is monic.
+
+For reciprocity, let $\rho(x_{j,i})=j-1$. If $f$ is an interior lattice point of $m\mathcal{O}(P)$, then
+\[
+g(x)=f(x)-\rho(x)-1
+\]
+is weakly order-preserving and takes values in $\{0,\ldots,m-k-1\}$. Conversely, every such weak map gives an interior lattice point by $f(x)=g(x)+\rho(x)+1$. Hence the interior Ehrhart count is $E^\circ(m)=E(m-k-1)$ for $m\ge k+1$, and it is zero for smaller positive $m$. If $F(t)=\sum_{m\ge0}E(m)t^m$, this says
+\[
+\sum_{m\ge1}E^\circ(m)t^m=t^{k+1}F(t).
+\]
+Ehrhart reciprocity gives $\sum_{m\ge1}E^\circ(m)t^m=(-1)^{d+1}F(1/t)$. Substituting $F(t)=H_{k,n}(t)/(1-t)^{d+1}$ and simplifying yields \eqref{eq:reciprocity}.
+\end{proof}
+
+\begin{remark}\label{rem:minusone}
+If $s=kn-k$ is odd, equation~\eqref{eq:reciprocity} forces $H_{k,n}(-1)=0$. Under Conjecture~\ref{conj:realrooted}, this root is simple and the other roots occur in reciprocal pairs.
+\end{remark}
+
+\begin{proposition}\label{prop:k23}
+For $k=2$ and $n=3$,
+\[
+H_{2,3}(t)=t^4+11t^3+24t^2+11t+1,
+\]
+and its four roots are distinct and negative.
+\end{proposition}
+
+\begin{proof}
+Equation~\eqref{eq:height-two-trace} gives $L_{2,3}(m)=1,18,129,571,1884$ for $m=0,1,2,3,4$. Substitution into \eqref{eq:binomial-basis} gives the displayed polynomial. Dividing by $t^2$ and setting $z=t+t^{-1}$ reduces its root equation to $z^2+11z+22=0$. Its roots $(-11\pm\sqrt{33})/2$ are distinct and less than $-2$, so each gives two distinct negative reciprocal roots of $t+t^{-1}=z$.
+\end{proof}
+
+\section{Symbolic Recurrence Reconstruction}
+\label{sec:recurrences}
+
+Solving exact coefficient systems over $\mathbb{Q}[t]$ against the
+tensor-network dataset gives the following finite-range propositions.
+
+\begin{proposition}[Finite exact recurrence for $n=3$]
+\label{prop:recurrence-n3}
+For the certified levels $k=2,\ldots,8$, the exact recurrence
+\begin{equation}\label{eq:recurrence-n3}
+H_{k,3}(t)
+=(t^2+6t+1)H_{k-1,3}(t)
++(t^3-2t^2+t)H_{k-2,3}(t)
+\end{equation}
+holds for every tested transition $k=4,\ldots,8$. The recurrence
+operator was reconstructed uniquely in the specified polynomial search
+space, and the coefficient system is overdetermined by the exact data.
+This proposition concerns only those certified transitions.
+\end{proposition}
+
+\begin{proof}
+The coefficients are determined over $\mathbb{Q}$ from the certified
+polynomials, then substituted into each transition using exact integer
+polynomial arithmetic. The identity holds at $k=4,5,6,7,8$. The
+uniqueness claim is relative to the bounded-degree search used by the
+analyzer; it is not a uniqueness assertion among unrestricted operators
+of arbitrary degree.
+\end{proof}
+
+\begin{proposition}[Finite exact recurrence for $n=4$]
+\label{prop:recurrence-n4}
+For the certified levels $k=3,\ldots,7$, the exact recurrence
+\begin{equation}\label{eq:recurrence-n4}
+H_{k,4}(t)
+=P_4(t)H_{k-1,4}(t)
++Q_4(t)H_{k-2,4}(t)
++R_4(t)H_{k-3,4}(t)
+\end{equation}
+holds for the tested transitions $k=6,7$, where
+\begin{align*}
+P_4(t)&=t^3+23t^2+23t+1,\\
+Q_4(t)&=7t^5-28t^4-22t^3-28t^2+7t,\\
+R_4(t)&=t^8-5t^7+9t^6-5t^5\\
+&\qquad{}-5t^4+9t^3-5t^2+t.
+\end{align*}
+Within the specified degree bounds and reciprocal-polynomial ansatz,
+the exact coefficient system is overdetermined and has a unique integral
+solution. This proposition asserts the identity only at $k=6,7$.
+\end{proposition}
+
+\begin{proof}
+The three operators were reconstructed over $\mathbb{Q}$ using reciprocal
+spans $(3,6,9)$ and degree bounds $(4,7,10)$. Exact substitution into
+$H_{6,4}$ and $H_{7,4}$ gives zero residual in both transitions. The
+uniqueness statement is relative to this finite-dimensional ansatz.
+\end{proof}
+
+The recurrence operators were uniquely reconstructed over
+$\mathbb{Q}[t]$ and certified on exact integer arithmetic. Here
+``uniquely'' is relative to the bounded-degree search space for $n=3$
+and, for $n=4$, to the stated degree bounds and reciprocal spans; it does
+not assert uniqueness without these restrictions.
+
+All operator coefficients lie in $\mathbb{Z}[t]$ and are reciprocal with
+their indicated spans:
+\[
+\begin{aligned}
+P_3(t)&=t^2P_3(1/t),&
+Q_3(t)&=t^4Q_3(1/t),\\
+P_4(t)&=t^3P_4(1/t),&
+Q_4(t)&=t^6Q_4(1/t),&
+R_4(t)&=t^9R_4(1/t),
+\end{aligned}
+\]
+where $P_3(t)=t^2+6t+1$ and $Q_3(t)=t^3-2t^2+t$. The order is $n-1$
+for the two circumferences investigated. The $n=3$ identities were
+checked for transitions $k=4,\ldots,8$. For $n=4$, the two independent
+transitions $k=6,7$ determine a unique integral solution under reciprocal
+spans $(3,6,9)$ and degree bounds $(4,7,10)$.
+
+\begin{remark}
+The coefficients shown here are obtained by exact reconstruction and
+substitution into the certified polynomials. In particular, the
+$t^3$ coefficient of $Q_3$ and the $t^8$ coefficient of $R_4$ are both
+$+1$; changing either to $-1$ does not reproduce the dataset. These
+computations establish the identities only on the stated finite ranges.
+\end{remark}
+
+\section{Real-Rootedness \& Interlacing Implications}
+\label{sec:root-implications}
+
+\begin{conjecture}[Higher-layer negative real-rootedness]
+\label{conj:realrooted}
+For every $k\ge3$ and $n\ge3$, all zeros of $H_{k,n}(t)$ are negative
+real numbers and are simple.
+\end{conjecture}
+
+\begin{conjecture}[Cylindrical recurrence of order $n-1$]
+\label{conj:universal-recurrence}
+For each fixed circumference $n\ge3$, there are polynomials
+$A_{1,n}(t),\ldots,A_{n-1,n}(t)\in\mathbb{Z}[t]$, independent of $k$,
+such that the recurrence holds for every $k\ge n$, where all lagged
+polynomials $H_{k-j,n}$ are defined:
+\[
+H_{k,n}(t)=\sum_{j=1}^{n-1}A_{j,n}(t)H_{k-j,n}(t).
+\]
+\end{conjecture}
+
+The recurrence discovery in Section~\ref{sec:recurrences} is consistent
+with this order-$n-1$ conjecture for $n=3,4$, but its exact identities are
+verified only on the finite transition ranges stated there. Neither
+finite recurrence data nor real-rootedness of the listed examples proves
+Conjecture~\ref{conj:universal-recurrence}.
+
+\subsection{Characteristic discriminant for the $n=3$ recurrence}
+
+With the verified convention $H_{k,3}=P_3H_{k-1,3}+Q_3H_{k-2,3}$, the
+characteristic equation in the layer index is
+$\lambda^2-P_3(t)\lambda-Q_3(t)=0$. Its discriminant is therefore
+\[
+\Delta_3(t)=P_3(t)^2+4Q_3(t)
+=t^4+16t^3+30t^2+16t+1.
+\]
+For $t<0$, write $x=-t>0$ and $z=x+x^{-1}\ge2$. Then
+\[
+\frac{\Delta_3(-x)}{x^2}=z^2-16z+28=(z-2)(z-14).
+\]
+Consequently, $\Delta_3(t)$ vanishes at $z=2$ and $z=14$, is positive
+when $z>14$, and is negative when $2<z<14$. Thus the characteristic
+multipliers are not real for every negative $t$; this discriminant does
+not by itself imply stability or real-rootedness of the polynomial
+sequence. The Sturm certificates establish the latter only for the
+individual cases in Table~\ref{tab:exact}.
+
+The alternative expression
+$P_3(t)^2-4(-t^3-2t^2+t)=t^4+16t^3+46t^2+8t+1$
+is not positive for every $t<0$: at $t=-4$ it equals $-63$. Moreover,
+the proposed $Q_3(t)=-t^3-2t^2+t$ differs from the verified operator
+$t^3-2t^2+t$ by $-2t^3$, so it does not reproduce the certified
+recurrences. Similarly, changing the leading coefficient of $R_4$ from
+$+1$ to $-1$ changes the recurrence residual by a nonzero multiple of
+$2t^8H_{k-3,4}$. The coefficients in Section~\ref{sec:recurrences} are
+retained because they reproduce the exact data.
+
+\subsection{Interlacing status}
+
+The Sturm certificates prove that each listed polynomial has only simple
+negative real roots. They do not establish strict interlacing between
+different values of $k$. The degrees increase by $n-1$ in each fixed-$n$
+family, so any interlacing claim requires a separately specified
+generalized interlacing criterion and an independent proof; no such
+general theorem is inferred from the current finite dataset.
+
+\section{Concluding Remarks \& Future Work}
+
+The height-two transfer trace is justified by summing out a single layer, but the explicit $C_{3,3}$ count shows that the proposed one-dimensional extension does not preserve lattice-point counts for higher layers. The cylindrical tensor network retains the full local coupling, while exact contraction and binomial-basis reconstruction yield reproducible integer polynomials. Sturm certificates verify simple negative real-rootedness for the 14 finite cases in Table~\ref{tab:exact}. The recurrence identities are verified only on the displayed finite ranges, and the universal order-$n-1$ recurrence and higher-layer real-rootedness remain conjectural. Future work includes deriving recurrences from the tensor-network transfer structure and proving root-location or generalized interlacing results uniformly in $k,n$.
+
+\subsection{Data \& Code Availability}
+
+The project directory contains the tensor-network engine and exact
+reconstruction modules in the \texttt{core/} directory, the command-line
+entry point \texttt{main.py}, and the 14 JSON certificates in
+\texttt{certificados\_json/}. These paths are relative to the project
+subdirectory \texttt{ARQUITECTURA CON TENSORES/}. Sturm verification is
+carried out by \texttt{core/root\_verifier.py}; recurrence and
+interlacing computations are carried out by
+\texttt{core/interlacing\_analyzer.py}. The certificates record the
+polynomial coefficients and exact Sturm data needed to reproduce the
+finite checks reported here.
+
+\begin{thebibliography}{9}
+\bibitem{LundstromLeite2026}
+T.~Lundstr\"om and L.~Saud Maia Leite,
+\emph{Order polytopes of crown posets},
+European Journal of Combinatorics \textbf{133} (2026), 104304.
+\href{https://doi.org/10.1016/j.ejc.2025.104304}{doi:10.1016/j.ejc.2025.104304}.
+
+\bibitem{Stanley1986}
+R.~P.~Stanley,
+\emph{Two poset polytopes},
+Discrete \& Computational Geometry \textbf{1} (1986), 9--23.
+
+\bibitem{CaoFu2026}
+Y.~Cao and H.~Fu,
+\emph{Real-rooted Ehrhart $h^*$-polynomials of crown posets and wheel and whirl matroids},
+preprint (2026), arXiv:2610.40496.
+\href{https://arxiv.org/abs/2610.40496}{arXiv:2610.40496}.
+\end{thebibliography}
+
+\end{document}

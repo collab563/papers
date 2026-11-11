@@ -1,0 +1,66 @@
+{
+  "polynomial": "t**4 + 11*t**3 + 24*t**2 + 11*t + 1",
+  "is_real_rooted_negative_simple": true,
+  "is_reciprocal": true,
+  "report": "Polinomio: t**4 + 11*t**3 + 24*t**2 + 11*t + 1\nGrado: 4 (esperado: 4; coincide: sí)\nRaíces negativas contadas por Sturm: 4/4\nRaíces simples: sí\nTodas las raíces son reales, simples y estrictamente negativas: sí\nSimetría recíproca: sí",
+  "sign_certificate": {
+    "method": "Sturm exacto sobre Q en (-infinito, 0)",
+    "polynomial_coefficients_descending": [
+      "1",
+      "11",
+      "24",
+      "11",
+      "1"
+    ],
+    "sturm_sequence_coefficients_descending": [
+      [
+        "1",
+        "11",
+        "24",
+        "11",
+        "1"
+      ],
+      [
+        "4",
+        "33",
+        "48",
+        "11"
+      ],
+      [
+        "171/16",
+        "99/4",
+        "105/16"
+      ],
+      [
+        "10208/1083",
+        "3872/1083"
+      ],
+      [
+        "1083/841"
+      ]
+    ],
+    "signs_at_negative_infinity": [
+      1,
+      -1,
+      1,
+      -1,
+      1
+    ],
+    "signs_at_zero": [
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "variations_at_negative_infinity": 4,
+    "variations_at_zero": 0,
+    "negative_root_count": 4,
+    "degree": 4,
+    "roots_simple": true,
+    "roots_all_real_simple_strictly_negative": true,
+    "expected_degree": 4,
+    "degree_matches_expected": true,
+    "reciprocal_symmetry": true
+  }
+}

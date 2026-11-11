@@ -1,0 +1,89 @@
+{
+  "polynomial": "t**6 + 18*t**5 + 93*t**4 + 160*t**3 + 93*t**2 + 18*t + 1",
+  "is_real_rooted_negative_simple": true,
+  "is_reciprocal": true,
+  "report": "Polinomio: t**6 + 18*t**5 + 93*t**4 + 160*t**3 + 93*t**2 + 18*t + 1\nGrado: 6 (esperado: 6; coincide: sí)\nRaíces negativas contadas por Sturm: 6/6\nRaíces simples: sí\nTodas las raíces son reales, simples y estrictamente negativas: sí\nSimetría recíproca: sí",
+  "sign_certificate": {
+    "method": "Sturm exacto sobre Q en (-infinito, 0)",
+    "polynomial_coefficients_descending": [
+      "1",
+      "18",
+      "93",
+      "160",
+      "93",
+      "18",
+      "1"
+    ],
+    "sturm_sequence_coefficients_descending": [
+      [
+        "1",
+        "18",
+        "93",
+        "160",
+        "93",
+        "18",
+        "1"
+      ],
+      [
+        "6",
+        "90",
+        "372",
+        "480",
+        "186",
+        "18"
+      ],
+      [
+        "14",
+        "106",
+        "178",
+        "78",
+        "8"
+      ],
+      [
+        "2046/49",
+        "5886/49",
+        "3222/49",
+        "366/49"
+      ],
+      [
+        "3851792/116281",
+        "3256540/116281",
+        "436884/116281"
+      ],
+      [
+        "101176679505/9461927048",
+        "20354640207/9461927048"
+      ],
+      [
+        "14533519945728/27095824783225"
+      ]
+    ],
+    "signs_at_negative_infinity": [
+      1,
+      -1,
+      1,
+      -1,
+      1,
+      -1,
+      1
+    ],
+    "signs_at_zero": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "variations_at_negative_infinity": 6,
+    "variations_at_zero": 0,
+    "negative_root_count": 6,
+    "degree": 6,
+    "roots_simple": true,
+    "roots_all_real_simple_strictly_negative": true,
+    "expected_degree": 6,
+    "degree_matches_expected": true,
+    "reciprocal_symmetry": true
+  }
+}

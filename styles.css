@@ -50,6 +50,9 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .paper-info { max-width: 770px; }
 .paper-info h3 { margin: 0 0 8px; font-size: 17px; line-height: 1.45; letter-spacing: -.02em; font-weight: 600; }
 .paper-author { margin: 0; color: var(--muted); font-size: 12px; }
+.paper-actions { display: flex; align-items: center; gap: 9px; flex: 0 0 auto; }
+.repository-link { min-height: 38px; display: inline-flex; align-items: center; gap: 8px; padding: 0 11px; border: 1px solid #d9dfe5; border-radius: 4px; color: var(--muted); font-size: 12px; font-weight: 550; }
+.repository-link:hover { border-color: #b9cad8; color: var(--accent-dark); background: #f5f9fc; }
 .open-paper { min-height: 38px; flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 0 13px; border: 1px solid #b9cad8; border-radius: 4px; color: var(--accent-dark); background: #fff; cursor: pointer; font-size: 12px; font-weight: 600; }
 .open-paper:hover { border-color: var(--accent); background: #f5f9fc; }
 .empty-state { padding: 22px 0; color: var(--muted); font-size: 13px; }
@@ -85,6 +88,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
   .intro h1 { font-size: 34px; }
   .intro > p:last-child { font-size: 14px; }
   .paper-main { align-items: flex-start; flex-direction: column; gap: 15px; }
+  .paper-actions { width: 100%; flex-wrap: wrap; }
   .paper-info h3 { font-size: 16px; }
   .open-paper { min-height: 36px; }
   .site-footer { align-items: flex-start; flex-direction: column; justify-content: center; gap: 6px; padding: 15px 0; }
@@ -93,6 +97,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
   .viewer-heading { width: 100%; padding-right: 32px; }
   .viewer-heading h2 { max-width: 100%; }
   .viewer-tools { width: 100%; flex-wrap: wrap; gap: 3px; }
+  .repository-viewer-link { order: 3; }
   .language-switch { margin-right: auto; }
   .viewer-close { position: absolute; top: 12px; right: 12px; }
 }

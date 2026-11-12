@@ -51,6 +51,10 @@ for (const button of languageButtons) {
   button.addEventListener('click', () => selectVersion(button.dataset.viewerLanguage));
 }
 
+function selectedSliderPage() {
+  return Number(pageSlider.value);
+}
+
 document.querySelector('[data-close-viewer]').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', (event) => {
   if (event.target === dialog) dialog.close();

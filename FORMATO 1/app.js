@@ -1,16 +1,16 @@
 const paperVersions = {
   es: {
     label: 'Versión en español',
-    title: 'Verificación computacional y análisis de redes de tensores 2D',
-    path: 'FORMATO/articulo_es.pdf',
-    fileName: 'paper-coronas-multicapa-es.pdf',
+    title: 'Numeradores de Ehrhart exactos y raíces reales en politopos de orden de coronas multicapa: redes de tensores y un teorema exacto para n = 3',
+    path: 'FORMATO%201/articulo_es.pdf',
+    fileName: 'numeradores-coronas-multicapa-es.pdf',
     frameTitle: 'Paper en español, documento PDF',
   },
   en: {
     label: 'English version',
-    title: 'Computational Verification and 2D Tensor Network Analysis',
-    path: 'FORMATO/aticulo.pdf',
-    fileName: 'paper-multilayer-crowns-en.pdf',
+    title: 'Exact Ehrhart Numerators and Real-Rootedness for Multilayer Crown Order Polytopes: Tensor Networks and an Exact Theorem for n = 3',
+    path: 'FORMATO%201/aticulo.pdf',
+    fileName: 'exact-crown-ehrhart-numerators-en.pdf',
     frameTitle: 'Paper in English, PDF document',
   },
 };

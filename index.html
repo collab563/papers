@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="description" content="Colección de papers de matemáticas. Consulta artículos y abre sus versiones en PDF." />
+    <title>Papers de matemáticas · Math Papers</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-frame" id="inicio">
+      <header class="site-header">
+        <a class="brand" href="#inicio" aria-label="Math Papers, inicio">
+          <span class="brand-mark" aria-hidden="true">∑</span>
+          <span>Math Papers</span>
+        </a>
+        <nav class="main-nav" aria-label="Navegación principal">
+          <a href="#inicio">Inicio</a>
+          <a href="#papers">Colección</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="intro" aria-labelledby="page-title">
+          <p class="eyebrow">COLECCIÓN ACADÉMICA</p>
+          <h1 id="page-title">Papers de matemáticas</h1>
+          <p>Artículos de distintas áreas, con sus archivos PDF y las versiones disponibles en otros idiomas.</p>
+        </section>
+
+        <section class="collection" id="papers" aria-labelledby="collection-title">
+          <div class="collection-heading">
+            <h2 id="collection-title">Colección</h2>
+            <span class="collection-count" id="collection-count">1 artículo</span>
+          </div>
+
+          <label class="search-box" for="paper-search">
+            <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="8.8" cy="8.8" r="5.8"></circle><path d="m13.2 13.2 4 4"></path></svg>
+            <input id="paper-search" type="search" placeholder="Buscar por título, autor o tema" autocomplete="off" />
+          </label>
+
+          <div class="paper-list" id="paper-list">
+            <article class="paper-item" data-paper data-search="verificación computacional análisis redes tensores numeradores politopos orden coronas multicapa wendel león alvarado ehrhart combinatoria geometría discreta">
+              <div class="paper-meta">
+                <span class="paper-subject">Combinatoria · Geometría discreta</span>
+                <span class="paper-languages" aria-label="Disponible en español e inglés"><span>ES</span><span>EN</span></span>
+              </div>
+              <div class="paper-main">
+                <div class="paper-info">
+                  <h3>Verificación computacional y análisis de redes de tensores 2D de los numeradores de politopos de orden de coronas multicapa</h3>
+                  <p class="paper-author">Wendel León Alvarado</p>
+                </div>
+                <button class="open-paper" type="button" data-open-viewer data-language="es">
+                  Abrir PDF <span aria-hidden="true">↗</span>
+                </button>
+              </div>
+            </article>
+          </div>
+          <p class="empty-state" id="empty-state" hidden>No se encontraron artículos con esa búsqueda.</p>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <a class="footer-brand" href="#inicio">Math Papers</a>
+        <span>Investigación matemática</span>
+      </footer>
+    </div>
+
+    <dialog class="paper-dialog" id="paper-dialog" aria-labelledby="viewer-title">
+      <div class="viewer-shell">
+        <header class="viewer-header">
+          <div class="viewer-heading">
+            <p class="eyebrow">LECTOR PDF</p>
+            <h2 id="viewer-title">Verificación computacional y análisis de redes de tensores 2D</h2>
+            <p class="viewer-current" id="viewer-current" aria-live="polite">Versión en español</p>
+          </div>
+          <div class="viewer-tools">
+            <div class="language-switch" role="group" aria-label="Idioma del paper">
+              <button type="button" data-viewer-language="es" aria-pressed="true">ES <span>Español</span></button>
+              <button type="button" data-viewer-language="en" aria-pressed="false">EN <span>English</span></button>
+            </div>
+            <a class="viewer-action" id="viewer-open" href="FORMATO/articulo_es.pdf" target="_blank" rel="noreferrer">Abrir aparte ↗</a>
+            <a class="viewer-action" id="viewer-download" href="FORMATO/articulo_es.pdf" download="paper-coronas-multicapa-es.pdf">Descargar ↓</a>
+            <button class="viewer-close" type="button" data-close-viewer aria-label="Cerrar visor">×</button>
+          </div>
+        </header>
+        <div class="viewer-frame-wrap">
+          <iframe id="paper-frame" title="Paper en español, documento PDF" src="FORMATO/articulo_es.pdf#view=FitH&amp;toolbar=1&amp;navpanes=0"></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

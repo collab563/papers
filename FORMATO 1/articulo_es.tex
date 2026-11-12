@@ -1,0 +1,739 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{seqsplit}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{proposition}[theorem]{Proposición}
+\newtheorem{conjecture}[theorem]{Conjetura}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definición}
+\newtheorem{remark}[theorem]{Observación}
+\newcommand{\coefficients}[1]{\texttt{\seqsplit{#1}}}
+
+\title{Numeradores de Ehrhart exactos y raíces reales en politopos de orden de coronas multicapa: redes de tensores y un teorema exacto para $n=3$}
+\author{Wendel León Alvarado}
+\date{11 de noviembre de 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Estudiamos los polinomios $h^*$ de Ehrhart de los politopos de orden asociados a los posets corona multicapa $C_{k,n}$. Una reducción propuesta a una traza de transferencia unidimensional es válida para altura dos, pero falla ya en $C_{3,3}$: para dilatación uno, el conteo exacto de puntos reticulares es $28$, mientras que la traza propuesta da $18$. Expresamos el conteo como una contracción de una red cilíndrica bidimensional de tensores y reconstruimos exactamente el numerador de Ehrhart sobre $\mathbb{Z}$. Para dilatación fija, la transferencia por filas implementada da, por Cayley--Hamilton, una recurrencia entera en el índice de capas, con una cota del espacio de estados que depende de la dilatación. Contracciones exactas mediante CRT y certificados racionales de Sturm o Sturm sobre $\Gamma$ reducido verifican raíces simples y estrictamente negativas en 19 casos, hasta $C_{8,5}$ de grado 32. La reconstrucción simbólica exacta encuentra una recurrencia de alcance finito para $n=4$ y, para $n=5$, descarta dos modelos de orden cuatro con grados acotados; la especialización en $q=1$ satisface una recurrencia escalar exacta de orden tres con coeficientes $(384,-10240,-32768)$. Una transferencia exacta de seis estados prueba la recurrencia de orden dos para todos los numeradores de Ehrhart con $n=3$. Un argumento de fase demuestra entonces que sus $2k$ raíces son simples y pertenecen a $(-7-4\sqrt3,-7+4\sqrt3)$ para todo $k\ge2$. Las preguntas restantes sobre raíces reales y recurrencias uniformes corresponden a circunferencias $n\ge4$.
+\end{abstract}
+
+\small\noindent\textbf{Palabras clave:} posets corona, polinomios de Ehrhart, redes de tensores, método de Sturm, raíces reales.
+\normalsize
+
+\section{Introducción y antecedentes}
+
+Para un poset finito $P$, su politopo de orden se define por
+\[
+\mathcal{O}(P)=\{x\in[0,1]^P:x_u\le x_v\text{ siempre que }u\le_P v\}.
+\]
+Es un politopo reticular de dimensión $|P|$; sus vértices son los vectores característicos de los conjuntos superiores de $P$ \cite{Stanley1986}.
+
+Fijemos $k\ge2$ y $n\ge3$. El poset $C_{k,n}$ tiene elementos $x_{j,i}$ para $1\le j\le k$ e $i\in\mathbb Z/n\mathbb Z$, con relaciones de cubierta
+\[
+x_{j,i}\prec x_{j+1,i},\qquad x_{j,i}\prec x_{j+1,i+1}\quad (1\le j<k),
+\]
+donde el segundo índice se interpreta cíclicamente. El poset tiene $kn$ elementos. Definimos
+\[
+L_{k,n}(m)=|m\mathcal{O}(C_{k,n})\cap\mathbb Z^{kn}|,\qquad
+\sum_{m\ge0}L_{k,n}(m)q^m=\frac{H_{k,n}(q)}{(1-q)^{kn+1}}.
+\]
+Así, $H_{k,n}(q)=h^*(\mathcal{O}(C_{k,n}),q)$ y $H_{k,n}(0)=1$.
+
+Lundström y Saud Maia Leite formularon la conjetura de raíces reales para la familia de coronas simples unidimensionales en trabajo iniciado en 2025 \cite{LundstromLeite2026}; Cao y Fu probaron posteriormente el caso de altura dos, $k=2$ \cite{CaoFu2026}. Este estudio computacional trata las familias multicapa $C_{k,n}$ con $k\ge3$. Sus aportes son el contraejemplo a la extensión propuesta de la traza unidimensional, una contracción de redes de tensores cilíndricas 2D, la reconstrucción exacta de numeradores de Ehrhart y el descubrimiento experimental de recurrencias. Las afirmaciones generales sobre recurrencias y ubicación de raíces siguen siendo conjeturas.
+
+\subsection{Corrección metodológica: la traza unidimensional}
+
+Para $N\ge1$, sea $K_N=(\min(a,b))_{1\le a,b\le N}$. En altura dos, con $N=m+1$, se tiene
+\begin{equation}\label{eq:traza-altura-dos}
+L_{2,n}(m)=\operatorname{tr}(K_N^n).
+\end{equation}
+En efecto, fijados los valores de la capa inferior, para valores adyacentes $a_{i-1},a_i$ el valor de su vecino común superior tiene $N-\max(a_{i-1},a_i)$ opciones. El cambio $a_i\mapsto N-a_i$ transforma ese factor en la entrada $\min(N-a_{i-1},N-a_i)$. Sumar alrededor del ciclo da \eqref{eq:traza-altura-dos}.
+
+\subsection{Falla de la extensión superior propuesta}
+
+Con tres capas o más, las variables intermedias permanecen acopladas por restricciones locales bidimensionales; sustituirlas por la matriz unidimensional propuesta no conserva el conteo. El siguiente ejemplo exacto refuta esa extensión.
+
+\begin{proposition}\label{prop:contraejemplo}
+Para $C_{3,3}$ y dilatación $m=1$, se tiene $L_{3,3}(1)=28$, mientras que la fórmula unidimensional propuesta da $\operatorname{tr}(K_2^3)=18$.
+\end{proposition}
+
+\begin{proof}
+Para $m=1$, cada capa se representa mediante el subconjunto de sus tres posiciones cíclicas con valor $1$. Un subconjunto $A$ de una capa obliga a que la siguiente contenga $A\cup(A+1)$. El conteo de capas compatibles es $18+6+3+1=28$. En cambio,
+\[
+K_2=\begin{pmatrix}1&1\\1&2\end{pmatrix},
+\qquad \operatorname{tr}(K_2^3)=18.
+\]
+Por tanto, la identidad de traza no es válida uniformemente para $k\ge3$.
+\end{proof}
+
+\section{Motor de redes de tensores 2D Boundary MPS}
+
+Para una dilatación fija $m\ge0$, cada coordenada toma valores en $\{0,\ldots,m\}$. Definimos
+\[
+T_{a,b,c}=
+\begin{cases}
+1,&c\ge\max(a,b),\\
+0,&\text{en otro caso},
+\end{cases}
+\qquad 0\le a,b,c\le m.
+\]
+Los tres índices tienen dimensión de enlace $D=m+1$. Los índices $a,b$ codifican valores adyacentes de una capa y $c$ el valor situado sobre ellos, imponiendo $x_{j+1,i}\ge\max(x_{j,i},x_{j,i+1})$. El conteo reticular es la contracción cilíndrica
+\[
+L_{k,n}(m)=
+\sum_{\substack{x_{j,i}\in\{0,\ldots,m\}\\1\le j\le k,\ i\in\mathbb Z/n\mathbb Z}}
+\prod_{j=1}^{k-1}\prod_{i\in\mathbb Z/n\mathbb Z}
+T_{x_{j,i},x_{j,i+1},x_{j+1,i}}.
+\]
+La periodicidad en el índice circunferencial produce la geometría cilíndrica.
+
+La red se contrae organizando sus factores multilineales a lo largo de la
+frontera cilíndrica discreta y eligiendo una jerarquía eficiente de
+contracciones de índices. La contracción abarca la red completa: no se
+aplica compresión del rango de frontera ni truncamiento por valores
+singulares. Así, «Boundary MPS» alude a la organización de la contracción
+por fronteras, no a un método aproximado de estados matriciales.
+
+La contracción exacta se efectúa sobre enteros de precisión arbitraria,
+sin redondeo de punto flotante. Para la exploración espectral se considera
+por separado una evaluación numérica con tensores reales o complejos de
+doble precisión en el dispositivo de cómputo elegido. Estos valores
+numéricos no se emplean como certificados enteros.
+
+\subsection{Transferencia por capas y cota de recurrencia}
+
+Fijado $m$, sea $X_{m,n}=\{0,\ldots,m\}^n$ el conjunto de configuraciones
+de una fila y definamos la matriz entera
+\[
+B_{m,n}(x,y)=\prod_{i\in\mathbb Z/n\mathbb Z}
+T_{x_i,x_{i+1},y_i},
+\qquad x,y\in X_{m,n}.
+\]
+Al sumar las filas intermedias en la contracción tensorial se obtiene
+\[
+L_{k,n}(m)=\mathbf 1^{\mathsf T}B_{m,n}^{\,k-1}\mathbf 1.
+\]
+El desplazamiento cíclico de las coordenadas conmuta con $B_{m,n}$;
+por tanto, la transferencia preserva el subespacio fijo por $C_n$. Su
+dimensión es el número de órbitas cíclicas de coloraciones con $m+1$
+colores de un ciclo de longitud $n$:
+\[
+M_{m,n}=\frac1n\sum_{r=0}^{n-1}(m+1)^{\gcd(n,r)}.
+\]
+En la base de sumas sobre órbitas, la transferencia restringida es una
+matriz entera. Si su polinomio característico es
+$z^r+\sum_{j=0}^{r-1}c_jz^j$, Cayley--Hamilton implica
+\[
+L_{k+r,n}(m)+\sum_{j=0}^{r-1}c_jL_{k+j,n}(m)=0,
+\qquad r\le M_{m,n}.
+\]
+En efecto, se multiplica por $\mathbf 1^{\mathsf T}B_{m,n}^{k-1}$ a la
+izquierda y por $\mathbf 1$ a la derecha la identidad del polinomio
+característico para la restricción a $V_{m,n}^{C_n}$. Los coeficientes
+$(c_0,\ldots,c_{r-1})$ pertenecen a $\mathbb Z^r$.
+Así se demuestra una recurrencia entera en $k$ para cada dilatación fija.
+Sin embargo, la cota y los coeficientes dependen de $m$; esta transferencia
+no demuestra por sí sola una recurrencia para $H_{k,n}(q)$ con
+coeficientes en $\mathbb Z[q]$ y cota dependiente únicamente de $n$.
+Además, el operador implementado no es invariante bajo reflexión: para
+$n=3,m=1$, la transición $(1,0,0)\to(1,0,1)$ está permitida, pero al
+reflejar ambas filas se obtiene la transición prohibida
+$(1,0,0)\to(1,1,0)$. El número de órbitas cíclicas de máscaras binarias
+de descenso,
+\[
+N_{C_n}(n)=\frac1n\sum_{d\mid n}\varphi(d)2^{n/d},
+\]
+no es la dimensión del espacio de estados de esta transferencia. Para
+aplicar a $H_{k,n}(q)$ una cota de Cayley--Hamilton basada en otro
+operador de P-particiones sobre máscaras de descenso, primero se requiere
+una identidad matricial independiente que represente esos numeradores.
+La existencia de una recurrencia polinómica uniforme para los numeradores
+de Ehrhart sigue siendo una cuestión aparte.
+
+\section{Reconstrucción algebraica exacta y resultados de verificación}
+
+\subsection{Reconstrucción exacta del numerador de Ehrhart}
+
+Sea $d=kn$. La base binomial de Ehrhart satisface
+\[
+L_{k,n}(m)=\sum_{j=0}^{d}h_j\binom{m+d-j}{d},
+\qquad H_{k,n}(q)=\sum_{j=0}^{d}h_jq^j.
+\]
+Evaluamos el conteo para $m=0,1,\ldots,d$ y resolvemos el sistema
+triangular resultante mediante aritmética entera exacta. No se utiliza
+interpolación de punto flotante.
+
+\subsection{Resultados exactos}
+
+La tabla presenta los 19 numeradores reconstruidos mediante contracción
+CRT y reconstrucción binomial. En cada caso el certificado cuenta tantas
+raíces negativas como el grado y verifica la simplicidad; por tanto,
+todas las raíces son reales, estrictamente negativas y simples. Para los
+casos palíndromos de grado par $C_{5,5}$ a $C_{8,5}$, Sturm se aplica al
+polinomio reducido $\Gamma$. Los coeficientes se listan en orden
+descendente.
+
+\small
+\setlength{\tabcolsep}{2pt}
+\begin{longtable}{@{}c c c c c >{\raggedright\arraybackslash}p{0.52\textwidth}@{}}
+\caption{Dataset exacto CRT y certificados de raíces.}\label{tab:resultados}\\
+\toprule
+$k$ & $n$ & Grado & Raíces negativas & Método & Coeficientes de $H_{k,n}(q)$, descendentes\\
+\midrule
+\endfirsthead
+\caption[]{Dataset exacto CRT (continuación).}\\
+\toprule
+$k$ & $n$ & Grado & Raíces negativas & Método & Coeficientes, descendentes\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+2&3&4&4/4&CRT+Sturm&\coefficients{1,11,24,11,1}\\
+3&3&6&6/6&CRT+Sturm&\coefficients{1,18,93,160,93,18,1}\\
+4&3&8&8/8&CRT+Sturm&\coefficients{1,25,211,739,1120,739,211,25,1}\\
+5&3&10&10/10&CRT+Sturm&\coefficients{1,32,378,2088,5757,8064,5757,2088,378,32,1}\\
+6&3&12&12/12&CRT+Sturm&\coefficients{1,39,594,4550,19005,44547,59136,44547,19005,4550,594,39,1}\\
+7&3&14&14/14&CRT+Sturm&\coefficients{1,46,859,8468,48263,165086,344061,439296,344061,165086,48263,8468,859,46,1}\\
+8&3&16&16/16&CRT+Sturm&\coefficients{1,53,1173,14185,103331,473631,1393927,2657795,3294720,2657795,1393927,473631,103331,14185,1173,53,1}\\
+3&4&9&9/9&CRT+Sturm&\coefficients{1,69,1204,7164,16906,16906,7164,1204,69,1}\\
+4&4&12&12/12&CRT+Sturm&\coefficients{1,100,3058,37164,204639,553200,767068,553200,204639,37164,3058,100,1}\\
+5&4&15&15/15&CRT+Sturm&\coefficients{1,131,5869,116355,1144241,6007079,17690249,30135467,30135467,17690249,6007079,1144241,116355,5869,131,1}\\
+6&4&18&18/18&CRT+Sturm&\coefficients{1,162,9641,273808,4129580,35320040,179517436,560710448,1100896046,1376570220,1100896046,560710448,179517436,35320040,4129580,273808,9641,162,1}\\
+7&4&21&21/21&CRT+Sturm&\coefficients{1,193,14374,539238,11319081,141272409,1094268784,5432987952,17714213382,38591690550,56806162004,56806162004,38591690550,17714213382,5432987952,1094268784,141272409,11319081,539238,14374,193,1}\\
+2&5&8&8/8&CRT+Sturm&\coefficients{1,112,1983,9684,16120,9684,1983,112,1}\\
+3&5&12&12/12&CRT+Sturm&\coefficients{1,228,11096,175640,1128655,3314308,4717744,3314308,1128655,175640,11096,228,1}\\
+4&5&16&16/16&CRT+Sturm&\coefficients{1,349,32235,1090390,16336920,122193552,491902733,1115855805,1462319070,1115855805,491902733,122193552,16336920,1090390,32235,349,1}\\
+5&5&20&20/20&CRT+$\Gamma$&\coefficients{1,470,67430,3915550,107636520,1560009346,12847278850,63317014410,193454540375,374892046080,466747051056,374892046080,193454540375,63317014410,12847278850,1560009346,107636520,3915550,67430,470,1}\\
+6&5&24&24/24&CRT+$\Gamma$&\coefficients{1,591,117186,10199141,445096496,10693336966,151557685236,1333861396106,7570649136251,28485470286251,72457863450986,126239758904721,151779252595816,126239758904721,72457863450986,28485470286251,7570649136251,1333861396106,151557685236,10693336966,445096496,10199141,117186,591,1}\\
+7&5&28&28/28&CRT+$\Gamma$&\coefficients{1,712,181578,21653944,1361039825,48903716880,1068736046140,14905774156760,137717986745175,867511817670400,3808653657683030,11848821044700960,26437684248135895,42655638313857400,50003623795120200,42655638313857400,26437684248135895,11848821044700960,3808653657683030,867511817670400,137717986745175,14905774156760,1068736046140,48903716880,1361039825,21653944,181578,712,1}\\
+8&5&32&32/32&CRT+$\Gamma$&\coefficients{1,833,260611,40040390,3382607635,168934442784,5270888638227,107372156127054,1479487760034900,14185823530891700,96815201555014565,478811892910351720,1740289156615238005,4698922195864486730,9500786705237707205,14463987063668528165,16633278213336049990,14463987063668528165,9500786705237707205,4698922195864486730,1740289156615238005,478811892910351720,96815201555014565,14185823530891700,1479487760034900,107372156127054,5270888638227,168934442784,3382607635,40040390,260611,833,1}\\
+\end{longtable}
+\normalsize
+
+El mayor caso tabulado es $C_{8,5}$, de grado 32.
+
+\subsection{Comprobaciones de sanidad y verificación de datos}
+
+Los 19 polinomios certificados satisfacen
+\[
+H_{k,n}(0)=1,\qquad
+q^{k(n-1)}H_{k,n}(1/q)=H_{k,n}(q),\qquad
+\deg H_{k,n}=k(n-1).
+\]
+La segunda igualdad expresa la simetría palíndroma estricta (reciprocidad de Gorenstein); el grado coincide con el resultado estructural de la siguiente subsección. Además, cada certificado JSON registra un conteo de raíces negativas igual al grado y una comprobación de que el polinomio no tiene raíces múltiples. Estas verificaciones corresponden al dataset finito.
+
+\subsection{Certificados racionales de Sturm}
+
+Para $H\in\mathbb Z[q]$ se construye su sucesión de Sturm sobre
+$\mathbb Q$. Las variaciones de signo en $-\infty$ y en $0$ dan el
+número exacto de raíces distintas en $(-\infty,0)$; la simplicidad se
+comprueba mediante un cálculo de máximo común divisor. Para $H$
+palíndromos de grado par, el método reducido usa
+$H(q)=(1+q)^d\Gamma(q/(1+q)^2)$ y aplica Sturm a $\Gamma$. Un conteo
+completo del grado en raíces negativas simples certifica la misma
+conclusión para $H$.
+
+La bisección racional permite aislar individualmente las raíces; cada
+certificado JSON registra los coeficientes del polinomio y de la sucesión
+de Sturm, las listas de signos, las variaciones y los resultados de
+simplicidad y reciprocidad. Los 19 certificados exactos están
+estructurados en formato JSON, nombrados
+\texttt{certificado\_k\_n.json}, y disponibles en el repositorio
+suplementario del proyecto.
+
+\subsection{Grado y reciprocidad}\label{sec:estructura}
+
+\begin{lemma}\label{lem:estructura}
+Para $k\ge2$ y $n\ge3$, $H_{k,n}(q)$ es mónico, tiene grado $kn-k=k(n-1)$ y satisface
+\[
+H_{k,n}(q)=q^{kn-k}H_{k,n}(1/q).
+\]
+\end{lemma}
+
+\begin{proof}
+Los puntos reticulares interiores del múltiplo $m\mathcal O(C_{k,n})$ son aplicaciones estrictamente crecientes sobre las cubiertas con valores en $\{1,\ldots,m-1\}$. Cada cadena maximal tiene $k$ elementos, así que el menor múltiplo con puntos interiores es $m=k+1$. En ese múltiplo, las cadenas verticales fuerzan los valores $1,\ldots,k$, que satisfacen todas las cubiertas; hay exactamente un punto interior. Por la relación grado-código de Ehrhart, el grado es $kn+1-(k+1)=kn-k$, y el coeficiente principal es uno.
+
+Para la reciprocidad, sea $\rho(x_{j,i})=j-1$. A cada aplicación interior $f$ del múltiplo $m$ se le asocia $g(x)=f(x)-\rho(x)-1$, una aplicación débilmente creciente con valores en $\{0,\ldots,m-k-1\}$. El cambio es biyectivo, de donde el conteo interior satisface $E^\circ(m)=E(m-k-1)$. Al combinar esta identidad con la reciprocidad de Ehrhart se obtiene la igualdad indicada.
+\end{proof}
+
+\section{Reconstrucción simbólica de recurrencias}
+
+La resolución exacta de sistemas de coeficientes sobre $\mathbb Q[q]$ produce las siguientes proposiciones de alcance finito.
+
+\begin{proposition}[Recurrencia finita exacta para $n=3$]
+\label{prop:rec-n3}
+Para las transiciones certificadas $k=4,\ldots,8$,
+\[
+H_{k,3}(q)=(q^2+6q+1)H_{k-1,3}(q)
++(q^3-2q^2+q)H_{k-2,3}(q).
+\]
+La solución es única y sobredeterminada dentro del espacio de búsqueda de grados acotados del analizador.
+\end{proposition}
+
+\begin{proposition}[Recurrencia finita exacta para $n=4$]
+\label{prop:rec-n4}
+Para las transiciones certificadas $k=6,7$,
+\[
+H_{k,4}(q)=P_4(q)H_{k-1,4}(q)+Q_4(q)H_{k-2,4}(q)+R_4(q)H_{k-3,4}(q),
+\]
+donde
+\begin{align*}
+P_4(q)&=q^3+23q^2+23q+1,\\
+Q_4(q)&=7q^5-28q^4-22q^3-28q^2+7q,\\
+R_4(q)&=q^8-5q^7+9q^6-5q^5\\
+&\qquad{}-5q^4+9q^3-5q^2+q.
+\end{align*}
+La solución integral es única dentro del ansatz recíproco, con cotas de grados $(4,7,10)$ y spans recíprocos $(3,6,9)$.
+\end{proposition}
+
+Para $n=5$ también se probó orden cuatro sin imponer simetría ni
+divisibilidad. Con cotas de grados $(4,12,16,20)$, la matriz de
+coeficientes tiene 56 columnas y 99 ecuaciones; módulo
+$p=2305843009213693951$, los rangos de la matriz y de la aumentada son
+$56$ y $57$. Con las cotas ampliadas $(6,14,20,26)$, hay 70 columnas,
+117 ecuaciones y rangos $70$ y $71$. Estos rangos modulares certifican
+inconsistencia sobre $\mathbb Q$: la matriz de coeficientes tiene rango
+completo, mientras que la aumentada tiene rango estrictamente mayor. Por
+tanto, ninguno de los dos modelos de grados acotados admite una
+recurrencia exacta de orden cuatro.
+
+La especialización exacta en $q=1$ tiene orden escalar mínimo tres:
+\begin{equation}\label{eq:escalar-n5}
+H_{k,5}(1)=384H_{k-1,5}(1)
+-10240H_{k-2,5}(1)-32768H_{k-3,5}(1),
+\qquad k=5,6,7,8.
+\end{equation}
+Las cuatro transiciones certificadas determinan de manera única los tres
+coeficientes escalares y descartan órdenes uno y dos.
+
+Los operadores de $n=3,4$ se reconstruyeron de manera única sobre
+$\mathbb Q[q]$ y se certificaron con aritmética entera exacta. La
+unicidad es relativa a los grados acotados para $n=3$ y, para $n=4$, a
+las cotas y spans recíprocos indicados; no se afirma unicidad sin esas
+restricciones. Sus coeficientes son palíndromos respecto de sus spans
+estructurales. La transferencia en la Sección~\ref{sec:n3-raices}
+prueba la identidad de $n=3$ para todo $k$; la reconstrucción aquí
+descrita es finita. Para $n=4$, la identidad sigue verificada solo en
+las transiciones certificadas.
+
+\subsection[Análisis espectral BKW para n=4]{Análisis espectral BKW para la recurrencia de orden tres de $n=4$}
+\label{sec:n4-bkw}
+
+En esta subsección suponemos que la recurrencia de orden tres de $n=4$
+vale para todo $k\ge6$, con los polinomios iniciales exactos
+$H_{3,4},H_{4,4},H_{5,4}$ de los certificados. La recurrencia solo se
+ha verificado hasta ahora para $k=6,7$. Sea
+\[
+\chi_4(\lambda;q)=\lambda^3-P_4(q)\lambda^2-Q_4(q)\lambda-R_4(q),
+\qquad R_4(q)=q(q-1)^6(q+1).
+\]
+Su discriminante es
+\[
+\Delta_4(q)=-4q\,q_4(q)\,q_6(q)^2,
+\]
+donde
+\[
+q_4(q)=q^4+76q^3-282q^2+76q+1,\qquad
+q_6(q)=q^6+7q^5+27q^4+58q^3+27q^2+7q+1.
+\]
+Con $z=q+q^{-1}$ se tiene $q_4(q)/q^2=z^2+76z-284$. Sus dos raíces
+negativas son
+\[
+\beta_\pm=\frac{z_0\pm\sqrt{z_0^2-4}}2,\qquad
+z_0=-38-24\sqrt3,\qquad \beta_+\beta_-=1,
+\]
+con $\beta_-\simeq-79.5566497221$ y
+$\beta_+\simeq-0.01256965953$. Definimos
+$I_4=(\beta_-,\beta_+)$.
+
+\begin{theorem}[Lugar de acumulación BKW real negativo para $n=4$]
+\label{thm:n4-bkw}
+Para la sucesión generada por la recurrencia de orden tres con
+$H_{3,4},H_{4,4},H_{5,4}$ como datos iniciales, el conjunto de
+acumulación de sus ceros sobre el eje real negativo es exactamente
+\[
+[\beta_-,\beta_+].
+\]
+Para $q\in I_4$ fuera de los ceros de $q_6$, las dos raíces
+características conjugadas no reales tienen el mismo módulo y dominan
+estrictamente la tercera raíz. En los ceros de $q_6$, ese par dominante
+coalesce en una raíz real doble cuyo módulo sigue superando
+estrictamente el de la tercera raíz. Para
+$q\in(-\infty,\beta_-)\cup(\beta_+,0)$, las tres raíces características
+son reales y sus módulos son distintos dos a dos.
+\end{theorem}
+
+\begin{proof}
+Para $q<0$, el signo de $\Delta_4(q)$ es el de $q_4(q)$, excepto en
+los ceros de $q_6$. Por tanto, en $I_4$ hay una raíz real y un par
+conjugado, salvo en los ceros de $q_6$. Para localizar estos puntos
+excepcionales, sea $z=q+q^{-1}$; entonces
+$q_6(q)/q^3=z^3+7z^2+24z+44$. Este cúbico es estrictamente creciente
+en $\mathbb R$, es negativo en $z_0$ y positivo en $-2$, así que su
+única raíz en $(z_0,-2)$ produce dos raíces negativas recíprocas de
+$q_6$ en $I_4$. En cada una, el cúbico característico tiene una raíz
+real doble dominante. Fuera de la clausura de $I_4$ hay tres raíces
+reales distintas. Una igualdad entre el módulo del par conjugado y el de la
+raíz real implicaría
+$P_4(q)^3R_4(q)+Q_4(q)^3=0$. El cálculo exacto de Sturm muestra que
+este polinomio no tiene raíces negativas. En $q=-1$,
+\[
+\chi_4(\lambda;-1)=\lambda(\lambda^2+48),
+\]
+así que el par conjugado también domina estrictamente allí. Por
+continuidad se obtiene la dominancia estricta en todo $I_4$, incluidos
+los puntos aislados de raíces características repetidas donde
+$q_6(q)=0$.
+
+Fuera de $I_4$, una igualdad de módulos entre dos raíces reales
+distintas exigiría que fueran opuestas, lo que implica
+$P_4Q_4+R_4=0$. La factorización exacta es
+\[
+P_4Q_4+R_4
+=8q(q+1)(q^2-5q+1)(q^4+20q^3+22q^2+20q+1).
+\]
+Todas sus raíces negativas están en $I_4$; el aislamiento exacto de
+raíces en $q=-100$ y $q=-1/1000$ determina el orden estricto en las dos
+componentes exteriores.
+
+La condición propuesta
+$P_4^3R_4-Q_4^3\ne0$ en todo $I_4$ es falsa: ese polinomio tiene una
+raíz en cada intervalo $(-50,-49)$ y $(-21/1000,-1/50)$, ambos
+contenidos en $I_4$. Esta condición no es necesaria para demostrar la
+dominancia; la condición pertinente para que el par conjugado no empate
+con la raíz real es $P_4^3R_4+Q_4^3\ne0$.
+
+El numerador de la función generatriz de la recurrencia es
+\[
+N(\lambda,q)=\lambda^2H_{3,4}
++\lambda(H_{4,4}-P_4H_{3,4})
++H_{5,4}-P_4H_{4,4}-Q_4H_{3,4}.
+\]
+El resultante exacto es
+\[
+\operatorname{Res}_\lambda(\chi_4,N)
+=16q^5(q-1)^{20}(q+1)^3q_6(q)^2.
+\]
+En consecuencia, salvo en los puntos aislados de raíces características
+repetidas, los coeficientes de los modos dominantes no se anulan en el
+interior de $I_4$, y el coeficiente del modo dominante único no se
+anula en el exterior. En $q=-1$,
+$N(\lambda,-1)=1536\lambda$, de modo que ninguno de los coeficientes
+dominantes se anula. El teorema de Beraha--Kahane--Weiss
+\cite{BerahaKahaneWeiss1975} da entonces el
+lugar de acumulación indicado sobre $(-\infty,0)$; la clausura incluye
+los dos extremos.
+\end{proof}
+
+\begin{remark}
+El teorema BKW de acumulación no implica que todos los ceros sean reales
+y simples para todo $k$ suficientemente grande. Los cálculos exactos de
+Sturm muestran que los polinomios generados por la recurrencia tienen
+$3k$ raíces simples en $(-79,-1/79)\subset I_4$ para
+$k=3,\ldots,12$, pero este rango finito no demuestra el resultado para
+todo $k$ grande. Para hacer incondicional la afirmación para los
+$H_{k,4}$ reales, primero hay que probar la recurrencia de orden tres
+para todo $k$ y luego establecer un conteo uniforme de raíces reales
+(por ejemplo, un argumento de cambios de signo que produzca $3k$
+raíces distintas). Aquí no se ha establecido una recurrencia ni un
+análisis espectral análogo para $n\ge5$.
+\end{remark}
+
+\subsection[Etapa 1: transferencia exacta y raíces reales para n=3]{Etapa 1: transferencia exacta y raíces reales para $n=3$}
+\label{sec:n3-raices}
+
+\begin{proposition}[Transferencia exacta de seis estados para $n=3$]
+\label{prop:n3-transfer}
+Para el poset cilíndrico con etiquetado natural
+$L(j,i)=3j+i$, donde $j\ge0$ e $i\in\{0,1,2\}$, el numerador de
+Ehrhart $H_{k,3}$ satisface, para todo $k\ge2$,
+\[
+H_{k,3}(q)=P_3(q)H_{k-1,3}(q)+Q_3(q)H_{k-2,3}(q),
+\qquad P_3(q)=q^2+6q+1,\quad Q_3(q)=q(q-1)^2,
+\]
+con $H_{0,3}(q)=1$ y $H_{1,3}(q)=q^2+4q+1$.
+\end{proposition}
+
+\begin{proof}
+Para un poset con etiquetado natural, el polinomio $h^*$ de Ehrhart es
+el enumerador de descensos de sus extensiones lineales
+\cite{Stanley1986}. En un prefijo de $3r$ elementos, un ideal de orden
+tiene $r$ capas completas, o bien $r-1$ capas completas seguidas por dos
+capas parciales de tamaños dos y uno. En efecto, una vez que una capa deja de estar completa, ninguna capa
+posterior puede estarlo; una capa parcial de tamaño dos puede
+preceder como máximo a un elemento, y una de tamaño uno no puede
+preceder a una capa no vacía. Las únicas colas de dos capas, escritas
+como máscaras de bits de vértices, son $(3,2)$, $(5,1)$ y $(6,4)$.
+Al registrar el último elemento se obtienen seis estados:
+\[
+\begin{array}{c|c|c}
+s&\text{máscaras de las capas parciales}&\text{último vértice}\\ \hline
+1&(3,2)&(r,1)\\
+2&(5,1)&(r,0)\\
+3&(6,4)&(r,2)\\
+4&\text{$r$ capas completas}&(r-1,0)\\
+5&\text{$r$ capas completas}&(r-1,1)\\
+6&\text{$r$ capas completas}&(r-1,2)
+\end{array}
+\]
+El bit $i$ de una máscara indica si está presente el vértice $i$.
+Al enumerar las formas válidas de añadir los siguientes tres elementos,
+asignando un factor $q$ a cada nuevo descenso, se obtiene la transferencia
+para vectores columna
+\[
+M(q)=
+\begin{pmatrix}
+q&q&0&q+1&q+1&q+1\\
+0&q&q&q+1&q+1&q+1\\
+q&0&q&q+1&q+1&q+1\\
+q^2&0&q^2&q^2+q&q^2+q&q^2+q\\
+0&q^2&q&2q&2q&2q\\
+q&q&0&q+1&q+1&q+1
+\end{pmatrix}.
+\]
+Los pesos exactos del prefijo inicial y de la terminación son
+\[
+\mathbf v=
+\begin{pmatrix}
+(q+1)P_3\\(q+1)P_3\\(q+1)P_3\\
+q(q+1)P_3\\q(q+3)(3q+1)\\(q+1)P_3
+\end{pmatrix},
+\qquad
+\alpha(q)=q(q+1),\quad \beta(q)=q^2+4q+1,\quad
+\mathbf g=(\alpha,\alpha,\alpha,\beta,\beta,\beta).
+\]
+Así, $H_{k,3}(q)=\mathbf gM(q)^{k-3}\mathbf v$ para $k\ge3$.
+La transferencia y sus vectores de frontera se derivan mediante
+enumeración exacta en \texttt{TENSORES 2D/verify\_n3\_symbolic.py}.
+
+Si
+$\chi_3(\lambda;q)=\lambda^2-P_3(q)\lambda-Q_3(q)$, el cálculo
+simbólico exacto da
+\[
+\det(\lambda I-M)=
+\lambda^2(\lambda^2-\lambda q+q^2)\chi_3(\lambda;q),
+\]
+y el resolvente escalar es
+\[
+\mathbf g(\lambda I-M)^{-1}\mathbf v
+=\frac{\lambda A(q)+B(q)}{\chi_3(\lambda;q)},
+\]
+donde
+\begin{align*}
+A(q)&=q^6+18q^5+93q^4+160q^3+93q^2+18q+1,\\
+B(q)&=q^7+9q^6+3q^5-26q^4+3q^3+9q^2+q.
+\end{align*}
+El numerador es coprimo con $\chi_3$ sobre $\mathbb Q(q)$, por lo que
+el denominador mínimo de la sucesión escalar es $\chi_3$. Sus
+coeficientes satisfacen la recurrencia afirmada para $k\ge5$. La
+enumeración exacta da $H_{0,3}=1$, $H_{1,3}=q^2+4q+1$ y verifica los
+casos iniciales restantes $k=2,3,4$; por tanto, la recurrencia vale para
+todo $k\ge2$.
+
+La transferencia de seis estados no es $C_3$-equivariante: la rotación
+de vértices no preserva los pesos de descenso del etiquetado natural.
+Por ello, la prueba usa la transferencia completa y su resolvente
+escalar, no un cociente por simetría cíclica.
+\end{proof}
+
+\begin{theorem}[Raíces reales y negativas simples para $n=3$]
+\label{thm:n3-raices}
+Para todo $k\ge2$, el numerador de Ehrhart $H_{k,3}$ satisface
+\[
+H_{k,3}(q)=P_3(q)H_{k-1,3}(q)+Q_3(q)H_{k-2,3}(q),
+\quad
+P_3(q)=q^2+6q+1,\quad Q_3(q)=q(q-1)^2,
+\]
+con $H_{0,3}(q)=1$ y $H_{1,3}(q)=q^2+4q+1$. Es mónico de grado $2k$
+y tiene exactamente $2k$ raíces reales distintas y estrictamente
+negativas, todas en
+\[
+I_3=(-7-4\sqrt3,\,-7+4\sqrt3)\subset(-\infty,0).
+\]
+\end{theorem}
+
+\begin{proof}
+La Proposición~\ref{prop:n3-transfer} establece la recurrencia y los
+valores iniciales para los numeradores reales de Ehrhart. El
+discriminante característico se factoriza como
+\[
+\Delta_3(q)=P_3(q)^2+4Q_3(q)
+=(q+1)^2(q^2+14q+1).
+\]
+Sea $A(q)=-(q^2+14q+1)$. Entonces $A(q)>0$ en $I_3$ y
+\[
+r(q)=(1-q)\sqrt{-q}>0.
+\]
+Los autovalores característicos son $r(q)e^{\pm i\theta(q)}$, donde
+la elección continua $\theta(q)\in(0,2\pi)$ en $I_3$ queda determinada
+por
+\[
+\cos\theta(q)=\frac{q^2+6q+1}{2(1-q)\sqrt{-q}},\qquad
+\sin\theta(q)=\frac{(q+1)\sqrt{A(q)}}{2(1-q)\sqrt{-q}}.
+\]
+Como $2H_{1,3}(q)-P_3(q)=(q+1)^2$, al resolver los coeficientes de
+Binet se obtiene, salvo en el punto de raíz característica doble
+$q=-1$,
+\[
+c_\pm(q)=\frac12\mp\frac{i(q+1)}{2\sqrt{A(q)}}.
+\]
+La expresión resultante se prolonga continuamente por $q=-1$. El
+módulo y el argumento de $c_+$ son
+\[
+2|c_+(q)|=\sqrt{\frac{-12q}{A(q)}},\qquad
+\phi(q)=\arg c_+(q)
+=\arctan\!\left(\frac{-(q+1)}{\sqrt{A(q)}}\right)
+\in\left(-\frac\pi2,\frac\pi2\right).
+\]
+Por consiguiente, en todo $I_3$,
+\begin{equation}\label{eq:n3-binet-fase}
+H_{k,3}(q)=r(q)^k
+\sqrt{\frac{-12q}{A(q)}}\,
+\cos\bigl(\Psi_k(q)\bigr),
+\qquad \Psi_k(q)=k\theta(q)+\phi(q).
+\end{equation}
+En $q=-1$ la identidad vale por continuidad y da
+$H_{k,3}(-1)=(-2)^k$.
+
+Al derivar la fase se obtiene
+\[
+\Psi_k'(q)=
+\frac{-(k+1)q^2+(10k+2)q-(k+1)}
+{2q(q-1)\sqrt{A(q)}}.
+\]
+Para $q\in I_3$, el denominador es positivo, mientras que el numerador
+es $-(k+1)(q^2+1)+(10k+2)q<0$ para todo $k\ge1$. Así, $\Psi_k$ es
+estrictamente decreciente. En los extremos,
+\[
+\lim_{q\to(-7-4\sqrt3)^+}\Psi_k(q)
+=2k\pi+\frac\pi2,\qquad
+\lim_{q\to(-7+4\sqrt3)^-}\Psi_k(q)=-\frac\pi2.
+\]
+Por tanto, para cada $m=0,1,\ldots,2k-1$ existe exactamente un
+$q\in I_3$ tal que $\Psi_k(q)=(m+\tfrac12)\pi$. Por
+\eqref{eq:n3-binet-fase}, cada uno de esos valores es raíz. El factor
+que precede al coseno es estrictamente positivo y
+$\Psi_k'(q)\ne0$, así que al derivar
+\eqref{eq:n3-binet-fase} se concluye que cada raíz es simple. Se
+obtienen $2k$ raíces distintas. Finalmente, una inducción en la
+recurrencia muestra que $H_{k,3}$ es mónico de grado $2k$: el término
+$P_3H_{k-1,3}$ tiene grado $2k$ y coeficiente principal uno, mientras
+que $Q_3H_{k-2,3}$ tiene grado $2k-1$. Por tanto, las raíces halladas
+son todas las raíces del polinomio.
+\end{proof}
+
+\section{Implicaciones para raíces reales y entrelazamiento}
+
+\begin{conjecture}[Recurrencia cilíndrica universal de orden $n-1$]
+\label{conj:recurrencia}
+Para cada circunferencia fija $n\ge4$ existen polinomios
+$A_{1,n}(q),\ldots,A_{n-1,n}(q)\in\mathbb Z[q]$, independientes de $k$,
+tales que para todo $k\ge n$,
+\[
+H_{k,n}(q)=\sum_{j=1}^{n-1}A_{j,n}(q)H_{k-j,n}(q).
+\]
+\end{conjecture}
+
+La transferencia por filas demostrada antes da recurrencias enteras para
+$L_{k,n}(m)$ a $m$ fijo, pero no prueba esta conjetura para $H_{k,n}(q)$.
+La transferencia de seis estados prueba la recurrencia de orden dos para
+todo $H_{k,3}$. Para $n=4$, la identidad de orden tres solo está
+verificada en el rango indicado. Los dos diagnósticos de orden cuatro
+para $n=5$ descartan los modelos de grados acotados indicados, no
+operadores de grados arbitrarios. Por tanto, la recurrencia universal
+para $n\ge4$ permanece abierta. El Teorema~\ref{thm:n3-raices} establece
+incondicionalmente la propiedad de raíces reales para $n=3$; los casos
+restantes de la conjetura de raíces reales corresponden a $n\ge4$.
+
+\begin{conjecture}[Raíces reales negativas en capas superiores]
+\label{conj:raices}
+Para todo $k\ge3$ y $n\ge4$, todas las raíces de $H_{k,n}(q)$ son reales, negativas y simples.
+\end{conjecture}
+
+\subsection[Discriminante característico para la recurrencia exacta de n=3]{Discriminante característico para la recurrencia exacta de $n=3$}
+
+Con la convención $H_{k,3}=P_3H_{k-1,3}+Q_3H_{k-2,3}$,
+$P_3(q)=q^2+6q+1$ y $Q_3(q)=q^3-2q^2+q$, la ecuación característica en $k$ es $\lambda^2-P_3(q)\lambda-Q_3(q)=0$. Por tanto,
+\[
+\Delta_3(q)=P_3(q)^2+4Q_3(q)
+=q^4+16q^3+30q^2+16q+1.
+\]
+Para $q=-x<0$, sea $z=x+x^{-1}\ge2$. Entonces
+\[
+\frac{\Delta_3(-x)}{x^2}=z^2-16z+28=(z-2)(z-14).
+\]
+Así, el discriminante se anula en $z=2,14$, es positivo si $z>14$ y negativo para $2<z<14$. En consecuencia, no es positivo para todo $q<0$ y no implica por sí mismo estabilidad ni raíces reales para toda la familia. En particular, la expresión alternativa $q^4+16q^3+46q^2+8q+1$ vale $-63$ en $q=-4$. Los signos de los operadores aquí presentados son los que reproducen exactamente los polinomios certificados.
+
+\subsection{Estado del entrelazamiento}
+
+Los certificados de Sturm prueban que cada polinomio listado tiene raíces reales negativas simples; no prueban entrelazamiento estricto entre distintos valores de $k$. Los grados aumentan en $n-1$ al incrementar $k$ en uno, por lo que cualquier afirmación de entrelazamiento requiere un criterio generalizado explícito y una demostración independiente.
+
+\section{Conclusiones y trabajo futuro}
+
+La traza de transferencia de altura dos se obtiene al eliminar una sola capa, pero el conteo de $C_{3,3}$ muestra que la extensión unidimensional propuesta no conserva los conteos de puntos reticulares para capas superiores. La red de tensores cilíndrica preserva el acoplamiento local completo. La transferencia por filas demuestra recurrencias enteras para los conteos a dilatación fija. Para $n=3$, la transferencia exacta de seis estados prueba una recurrencia de orden dos para cada numerador de Ehrhart; el argumento de fase da entonces $2k$ raíces simples en $I_3$ para todo $k\ge2$. La contracción CRT y la reconstrucción binomial producen los 19 polinomios de la tabla, cuyos certificados verifican raíces reales negativas simples hasta $C_{8,5}$. Así, la conjetura restante de raíces reales corresponde a $n\ge4$. Para $n=5$, los dos sistemas acotados de orden cuatro son inconsistentes y la especialización en $q=1$ satisface \eqref{eq:escalar-n5}. La recurrencia polinómica universal para $n\ge4$ y la conjetura de raíces reales para las capas superiores siguen abiertas. El trabajo futuro incluye construir transferencias de dimensión fija para circunferencias mayores y probar resultados uniformes de ubicación de raíces o entrelazamiento.
+
+El paso de una capa completa aumenta el grado en $n-1$, mientras que las pruebas finitas de la transferencia en $t=-s$ no hallaron ni no negatividad total ni una conjugación diagonal de signos que produzca una matriz no negativa. En cambio, la interpolación vértice a vértice mediante ideales de orden, cuyos perfiles satisfacen $h_i\le h_{i-1\pmod n}+1$, da $C_{k,n}=P_0\subset P_1\subset\cdots\subset P_n=C_{k+1,n}$ y la descomposición exacta por último elemento maximal
+\[
+H_I(t)=\sum_{m\in\max(I)}H_I^{(m)}(t).
+\]
+En todos los ideales probados se verificó la identidad exacta de borrado maximal
+\[
+H_I^{(m)}(t)=\sum_{w\in\max(I\setminus\{m\})}
+t^{\mathbf{1}[w>m]}H_{I\setminus\{m\}}^{(w)}(t).
+\]
+La secuencia de entrelazamiento dirigida también se cumplió en cada paso de las cinco cadenas intermedias ensayadas para $n\in\{3,4,5\}$. Estos resultados finitos sugieren un programa inductivo natural para abordar la conjetura en todo $n\ge4$, pero no constituyen una prueba inductiva; en particular, la prueba exhaustiva de ideales para $C_{3,5}$ encontró dos excepciones al entrelazamiento dirigido completo.
+
+\subsection{Disponibilidad de datos y código}
+
+El código fuente está en el directorio hermano \texttt{TENSORES 2D/}:
+el motor de redes de tensores y los módulos de reconstrucción exacta están
+en \path{core/}, junto con la interfaz \path{main.py}. Los 19 certificados
+JSON de la Tabla~\ref{tab:resultados} se distribuyen junto con este
+artículo. La verificación de Sturm está implementada en
+\path{core/root_verifier.py}; el análisis de recurrencias y entrelazamiento,
+en \path{core/interlacing_analyzer.py}. El argumento de transferencia exacta
+para $n=3$ se comprueba independientemente con
+\path{verify_n3_symbolic.py}; los cálculos espectrales de $n=4$ se
+comprueban con \path{verify_n4_bkw.py}. Los certificados registran los
+coeficientes y los datos exactos de Sturm necesarios para reproducir las
+comprobaciones finitas.
+
+\begin{thebibliography}{9}
+\bibitem{LundstromLeite2026}
+T.~Lundstr\"om y L.~Saud Maia Leite,
+\emph{Order polytopes of crown posets},
+European Journal of Combinatorics \textbf{133} (2026), 104304.
+\href{https://doi.org/10.1016/j.ejc.2025.104304}{doi:10.1016/j.ejc.2025.104304}.
+
+\bibitem{Stanley1986}
+R.~P.~Stanley,
+\emph{Two poset polytopes},
+Discrete \& Computational Geometry \textbf{1} (1986), 9--23.
+
+\bibitem{BerahaKahaneWeiss1975}
+{\raggedright
+S.~Beraha, J.~Kahane y N.~J.~Weiss,
+\emph{Limits of zeros of recursively defined polynomials},
+Proceedings of the National Academy of Sciences \textbf{72} (1975), 4209--4211.
+\href{https://doi.org/10.1073/pnas.72.11.4209}{doi:10.1073/pnas.72.11.4209}.\par}
+
+\bibitem{CaoFu2026}
+Y.~Cao y H.~Fu,
+\emph{Real-rooted Ehrhart $h^*$-polynomials of crown posets and wheel and whirl matroids},
+preprint (2026), arXiv:2610.40496.
+\href{https://arxiv.org/abs/2610.40496}{arXiv:2610.40496}.
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,205 @@
+\documentclass[10pt]{article}
+
+\usepackage[margin=0.82in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,longtable,array}
+\usepackage{graphicx}
+\usepackage{pdflscape}
+\usepackage{microtype}
+\usepackage{caption}
+\usepackage{hyperref}
+
+\hypersetup{
+  colorlinks=true,
+  allcolors=black,
+  pdftitle={Exact Linear-Time Schedule Counting, Unbiased Sampling, and Pitman-Chernoff SLA Guarantees for Cyclic Parallel Pipelines},
+  pdfauthor={Wendel León Alvarado}
+}
+\graphicspath{{./}}
+\setlength{\emergencystretch}{2em}
+\newcommand{\Ccal}{\mathcal{C}}
+\newcommand{\Lcal}{\mathcal{L}}
+\newcommand{\Ocal}{\mathcal{O}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\des}{\operatorname{des}}
+
+\title{Exact Linear-Time Schedule Counting, Unbiased Sampling, and Pitman--Chernoff SLA Guarantees for Cyclic Parallel Pipelines}
+\author{Wendel León Alvarado}
+\date{November 12, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Cyclic parallel pipelines, periodic stencils, and distributed ring buffers can be modeled as order-preserving labelings and linear extensions of a cylindrical crown poset $C_{k,n}$. We give an exact transfer algorithm for counting feasible schedules with $m+1$ time or priority windows. Its layer operator consists of coordinatewise suffix sums and a cyclic maximum map on $(m+1)^n$ states, requiring $O(k)$ transfer rounds and a state array independent of pipeline length. An exact backward dynamic program also samples feasible schedules uniformly; a separate ideal-based dynamic program samples linear extensions for at most 18 tasks. Four chi-square checks with 20,000 draws give $p$-values from 0.2155 to 0.7364. For certified descent polynomials whose zeros are real and negative, Pitman's theorem identifies priority inversions with a sum of independent Bernoulli variables. This yields optimized Pitman--Chernoff and closed-form Hoeffding bounds for SLA congestion. We report all 92 threshold comparisons from 23 instances with degree at most 40, alongside an exact-count scaling benchmark through 100,000 layers and 500,000 coupled tasks. The scripts, machine-readable results, plots, and manuscript sources are provided for reproducibility.
+\end{abstract}
+
+\noindent\textbf{Keywords:} cyclic scheduling; order polytopes; P-partitions; exact counting; uniform sampling; SLA; real-rooted polynomials; concentration inequalities.
+
+\section{Introduction}
+
+Many cyclic systems impose precedence constraints between neighboring stages: a periodic stencil cannot update a site before its upstream neighbors, and a distributed ring buffer may expose a record only after the preceding pipeline stage has completed. Let $C_{k,n}$ have vertices $x_{j,i}$, with layer $1\le j\le k$ and cyclic coordinate $i\in\mathbb{Z}/n\mathbb{Z}$. Its cover relations are
+\[
+  x_{j,i}\prec x_{j+1,i},\qquad
+  x_{j,i}\prec x_{j+1,i+1}\qquad (1\le j<k).
+\]
+There are $d=kn$ tasks. A schedule with $m+1$ windows is an order-preserving map from this poset to $\{0,1,\ldots,m\}$. Equivalently, it is an integer point in the dilated order polytope
+\[
+  m\Ocal(C_{k,n})
+  =\{y\in[0,m]^d:y_u\le y_v\text{ whenever }u\preceq v\}.
+\]
+The number of such schedules is the Ehrhart count $L_{k,n}(m)$. This representation includes cyclic parallel pipelines, periodic monotone stencils, and ring-buffer precedence patterns without imposing extra constraints around a layer beyond the displayed covers.
+
+The same poset gives a second object of interest. Under the natural labeling of its vertices, the Ehrhart numerator is
+\begin{equation}
+  H_{k,n}(t)=\sum_{\pi\in\Lcal(C_{k,n})}t^{\des(\pi)}
+            =\sum_{s=0}^{D}h_s^*t^s,\qquad
+  D=k(n-1),
+  \label{eq:hstar}
+\end{equation}
+where $\Lcal(C_{k,n})$ is the set of linear extensions. Thus $H_{k,n}$ records the priority-inversion distribution across linear extensions, rather than the number of schedules at a particular window count. The order-polytope and P-partition connection is classical \cite{Stanley1986}; our focus is an exact layer transfer, unbiased sampling, and finite-instance latency guarantees derived from this polynomial.
+
+\paragraph{Contributions.}
+For fixed perimeter $n$ and window count $m+1$, we count schedules in $O(k)$ layer updates over $(m+1)^n$ states. We provide exact integer-weighted backward sampling and validate it against exhaustive small instances. Finally, for 23 certified polynomials with $3\le n\le7$ and $D\le40$, we compute exact congestion tails, optimize a Pitman--Chernoff bound, and compare the result with Hoeffding's inequality. The benchmark reaches 500,000 tasks while using 243 transfer states at its largest perimeter/window configuration.
+
+\section{Linear-Time Counting and Unbiased Backward-DP Sampling}
+
+\subsection{The suffix-sum transfer}
+
+Represent a layer by $x=(x_0,\ldots,x_{n-1})\in\{0,\ldots,m\}^n$. Let $F_j(x)$ be the number of valid partial schedules through layer $j$ whose current layer has state $x$. With $F_1(x)=1$, the cover constraints imply
+\begin{equation}
+  F_{j+1}(x)
+  =\sum_{\substack{y_i\ge x_i\\y_i\ge x_{i-1}\\0\le i<n}}F_j(y)
+  =S F_j\!\left(\max(x_i,x_{i-1})_{i=0}^{n-1}\right),
+  \label{eq:transfer}
+\end{equation}
+where $i-1$ is interpreted modulo $n$ and
+\[
+  S F(z)=\sum_{y_0\ge z_0}\cdots\sum_{y_{n-1}\ge z_{n-1}}F(y).
+\]
+The operator $S$ is evaluated by one suffix-sum transform along each tensor axis. The resulting tensor is then indexed through the coordinatewise cyclic maximum in \eqref{eq:transfer}. The final count is $L_{k,n}(m)=\sum_x F_k(x)$.
+
+Writing $Q=(m+1)^n$, each layer requires $n$ passes over $Q$ entries and $O(Q)$ additional state storage. Hence the number of arithmetic operations is $O(knQ)$, or $O(k)$ layer updates when $n,m$ are fixed; the number of state slots is independent of $k$. Exact integer bit lengths do grow with $k$, so this is a fixed-state, unit-cost arithmetic statement rather than a claim that arbitrary-precision bit complexity or byte storage is mathematically constant. In the reported range, the maximum count has only 47 bits.
+
+\subsection{Uniform schedule generation}
+
+For sampling, the backward dynamic program stores the number of valid completions from each layer/state. At each step, the sampler chooses among feasible next states with integer weights equal to their completion counts. A uniform integer ticket is drawn from the sum of those weights; therefore every complete valid schedule has the same probability, with no floating-point normalization or rejection bias. For fixed $n,m$, precomputation and drawing each sample use a number of layer updates linear in $k$.
+
+Linear extensions require a different state space. For $d\le18$, we memoize the number of completions of every order ideal. Among currently available tasks, the sampler chooses one with probability proportional to the number of completions after adding it. This produces a uniform linear extension and permits a direct empirical check of its descent count against $h_s^*/H_{k,n}(1)$.
+
+We enumerate all valid schedules for $C_{2,3}$ and $C_{3,3}$ with two windows, and compare their empirical frequencies with the uniform distribution using 20,000 samples per instance. The chi-square $p$-values are 0.7134 and 0.7364. For linear extensions of the same two posets, the theoretical descent probabilities are the normalized $h^*$ coefficients; the corresponding $p$-values are 0.2315 and 0.2155. These tests do not prove uniformity, which follows from the integer completion weights, but they provide reproducible distributional checks.
+
+\section{Analytical Latency Guarantees via Pitman's Theorem}
+
+The polynomials $H_{k,n}(t)$ are palindromic of degree $D=k(n-1)$. For the 23 instances studied here, their negative real roots $r_1,\ldots,r_D$ are either covered by the exact perimeter-three spectral result or supplied by the existing root certificates and Lee--Yang results. For $n=3$, the transfer recurrence confines every root to
+\[
+  I_3=(-7-4\sqrt{3},-7+4\sqrt{3})\subset(-\infty,0),
+\]
+for every $k\ge2$. For $n\in\{4,5,6,7\}$ the real-negative property is used only for the certified finite instances in the data set.
+
+Normalize the polynomial at $t=1$. Real-rootedness and $H_{k,n}(0)=1$ give
+\begin{equation}
+  \frac{H_{k,n}(t)}{H_{k,n}(1)}
+  =\prod_{j=1}^{D}(1-p_j+p_jt),\qquad
+  p_j=\frac{1}{1-r_j}.
+  \label{eq:bernoulli}
+\end{equation}
+By Pitman's real-rooted polynomial theorem \cite{Pitman1997}, the random variable $X_{k,n}=\des(\Pi)$ for a uniform linear extension $\Pi$ has the same distribution as a sum of independent Bernoulli variables with success probabilities $p_j$. Palindromicity gives $\mathbb{E}X_{k,n}=D/2=:\mu$.
+
+For overload margin $\delta\in\{0.10,0.20,0.30,0.40\}$, let
+\[
+  a=(1+\delta)\mu,\qquad q=\lceil a\rceil.
+\]
+The exact violation probability and the optimized exponential-moment upper bound are
+\begin{align}
+  P_{\mathrm{exact}}
+    &=\Pr(X_{k,n}\ge q)
+      =\frac{\sum_{s\ge q}h_s^*}{H_{k,n}(1)},\\
+  P_{\mathrm{PC}}
+    &=\inf_{t>1}t^{-a}\frac{H_{k,n}(t)}{H_{k,n}(1)}.
+  \label{eq:chernoff}
+\end{align}
+The optimum is computed in log space from the Bernoulli parameters in \eqref{eq:bernoulli}. Hoeffding's inequality for sums of $D$ independent bounded variables \cite{Hoeffding1963} gives the closed form
+\begin{equation}
+  P_{\mathrm{H}}
+  =\exp\!\left(-\frac{2(\delta\mu)^2}{D}\right)
+  =\exp\!\left(-\frac{\delta^2D}{2}\right).
+  \label{eq:hoeffding}
+\end{equation}
+The table and figure compare exact tails with both bounds; empirical frequencies are shown only when $d\le18$, the range supported by the ideal-based extension sampler.
+
+\section{Large-Scale Computational Experiments}
+
+\subsection{Scaling through 500,000 coupled tasks}
+
+We benchmark $m=2$, with $k\in\{10,100,1{,}000,10{,}000,50{,}000,100{,}000\}$ and $n\in\{3,4,5\}$. The state counts are respectively 27, 81, and 243, and the largest run has $d=kn=500{,}000$ tasks. The exact counts, wall times, Python \texttt{tracemalloc} peaks, bit lengths, and base-10 logarithms are listed in Table~\ref{tab:scaling}. The measured time grows approximately in proportion to $k$ at fixed $n$, while peak traced memory is flat across $k$ for each fixed state-space size. The $n=5$ runs use 0.028 MiB at 243 states.
+
+\input{scaling_results_table.tex}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{fig_linear_scaling_sla.pdf}
+  \caption{Measured transfer time and peak traced memory against pipeline length. State-space sizes are fixed for each perimeter; the 500,000-task run is $k=100{,}000,n=5$.}
+  \label{fig:scaling}
+\end{figure}
+
+\subsection{Exact tails and analytical SLA bounds}
+
+The certificate loader combines the available $H_{k,n}$ coefficient/root files with the Lee--Yang result records. It yields 23 finite instances with $3\le n\le7$ and degree $D\le40$. For each of the four overload margins, we report the exact tail, the optimized Pitman--Chernoff upper bound, Hoeffding's bound, and (where $d\le18$) the direct uniform-sampling frequency. All 92 instance/threshold rows are included in Table~\ref{tab:sla-all}; Figure~\ref{fig:bounds} shows the four overload levels across perimeters and instances. The numerical comparisons satisfy $P_{\mathrm{exact}}\le P_{\mathrm{PC}}$ and $P_{\mathrm{exact}}\le P_{\mathrm{H}}$ for every row.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{fig_pitman_chernoff_bounds.pdf}
+  \caption{Exact SLA violation probabilities (solid), optimized Pitman--Chernoff bounds (dashed), and Hoeffding bounds (dotted), plotted on a logarithmic scale against overload margin. Each faint curve is one certified instance.}
+  \label{fig:bounds}
+\end{figure}
+
+\input{sla_comparison_table.tex}
+
+\subsection{Uniform-sampling diagnostics}
+
+Figure~\ref{fig:sampling} overlays empirical descent frequencies from 20,000 exact uniform samples with the theoretical coefficients $h_s^*/H_{k,n}(1)$. The reported chi-square $p$-values are 0.2315 for $C_{2,3}$ and 0.2155 for $C_{3,3}$; the corresponding schedule-level frequency tests give 0.7134 and 0.7364. All four values lie in the prespecified non-rejection range at the 5\% level.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.88\textwidth]{fig_uniform_sampling_chi2.pdf}
+  \caption{Empirical descent distributions for exact uniform linear-extension samples and their exact $h^*$ probabilities. Titles show chi-square goodness-of-fit $p$-values.}
+  \label{fig:sampling}
+\end{figure}
+
+\section{Conclusion and Reproducibility}
+
+The cyclic maximum/suffix-sum transfer counts integer order-preserving schedules with a fixed state space and a number of layer updates linear in pipeline length. Completion-weighted integer choices give an unbiased schedule sampler; ideal-based completion counts extend exact uniform sampling to linear extensions for small instances. Certified real-negative descent polynomials then provide an independent-Bernoulli representation and explicit SLA tail guarantees. The experiments cover all 18 scaling configurations and all 92 comparisons across 23 certified polynomials.
+
+The implementation and data are available in the \texttt{CYCLIC\_PIPELINE\_SLA/} directory. From the project root, run
+\begin{quote}
+\small
+\verb|.venv\Scripts\python.exe CYCLIC_PIPELINE_SLA\cyclic_pipeline_scheduler.py|\\
+\verb|.venv\Scripts\python.exe CYCLIC_PIPELINE_SLA\generar_graficas_sla.py|\\
+\verb|cd CYCLIC_PIPELINE_SLA|\\
+\verb|pdflatex paper_cyclic_pipeline_sla.tex|\\
+\verb|pdflatex paper_cyclic_pipeline_sla.tex|
+\end{quote}
+The scheduler writes the JSON results; the plotting script regenerates the six figure files and both complete LaTeX data tables. Two \LaTeX{} passes resolve table and figure references.
+
+\begin{thebibliography}{9}
+\bibitem{Hoeffding1963}
+W. Hoeffding (1963).
+Probability inequalities for sums of bounded random variables.
+\emph{Journal of the American Statistical Association}, 58(301), 13--30.
+
+\bibitem{Pitman1997}
+J. Pitman (1997).
+Probabilistic bounds on the coefficients of polynomials with only real zeros.
+\emph{Journal of Combinatorial Theory, Series A}, 77(2), 279--303.
+
+\bibitem{Stanley1986}
+R. P. Stanley (1986).
+Two poset polytopes.
+\emph{Discrete \& Computational Geometry}, 1, 9--23.
+\end{thebibliography}
+
+\end{document}

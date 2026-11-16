@@ -50,10 +50,15 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .paper-info { max-width: 770px; }
 .paper-info h3 { margin: 0 0 8px; font-size: 17px; line-height: 1.45; letter-spacing: -.02em; font-weight: 600; }
 .paper-author { margin: 0; color: var(--muted); font-size: 12px; }
+.paper-date { margin: 4px 0 0; color: var(--muted); font-size: 11px; }
+.paper-description { max-width: 700px; margin: 10px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.paper-resource-links { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 13px; }
+.paper-resource-links a { color: var(--accent); font-size: 11px; font-weight: 550; }
+.paper-resource-links a:hover { color: var(--accent-dark); text-decoration: underline; text-underline-offset: 3px; }
 .paper-actions { display: flex; align-items: center; gap: 9px; flex: 0 0 auto; }
 .repository-link { min-height: 38px; display: inline-flex; align-items: center; gap: 8px; padding: 0 11px; border: 1px solid #d9dfe5; border-radius: 4px; color: var(--muted); font-size: 12px; font-weight: 550; }
 .repository-link:hover { border-color: #b9cad8; color: var(--accent-dark); background: #f5f9fc; }
-.open-paper { min-height: 38px; flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 0 13px; border: 1px solid #b9cad8; border-radius: 4px; color: var(--accent-dark); background: #fff; cursor: pointer; font-size: 12px; font-weight: 600; }
+.open-paper { width: 92px; min-height: 38px; flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 8px; border: 1px solid #b9cad8; border-radius: 4px; color: var(--accent-dark); background: #fff; cursor: pointer; font-size: 12px; font-weight: 600; }
 .open-paper:hover { border-color: var(--accent); background: #f5f9fc; }
 .empty-state { padding: 22px 0; color: var(--muted); font-size: 13px; }
 
@@ -68,6 +73,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .viewer-heading .eyebrow { margin-bottom: 5px; font-size: 9px; }
 .viewer-heading h2 { max-width: 480px; margin: 0 0 4px; overflow: hidden; font-size: 13px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
 .viewer-current { margin: 0; color: var(--muted); font-size: 10px; }
+.viewer-description { max-width: 600px; margin: 5px 0 0; color: var(--muted); font-size: 10px; line-height: 1.45; }
 .viewer-tools { display: flex; align-items: center; gap: 7px; }
 .language-switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 5px; background: var(--soft); }
 .language-switch button { min-height: 30px; display: inline-flex; align-items: center; gap: 5px; padding: 0 8px; border: 0; border-radius: 3px; color: var(--muted); background: transparent; cursor: pointer; font-size: 10px; }

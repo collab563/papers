@@ -19,7 +19,7 @@
 \newtheorem{remark}[theorem]{Remark}
 \newcommand{\coefficients}[1]{\texttt{\seqsplit{#1}}}
 
-\title{Exact Ehrhart Numerators and Real-Rootedness for Multilayer Crown Order Polytopes: Tensor Networks and an Exact Theorem for $n=3$}
+\title{Exact Ehrhart Numerators and Negative Real-Rootedness for Multilayer Crown Order Polytopes: Tensor Networks and Exact Theorems for $n=3,4$}
 \author{Wendel León Alvarado}
 \date{November 11, 2026}
 
@@ -28,7 +28,7 @@
 \maketitle
 
 \begin{abstract}
-We study Ehrhart $h^*$-polynomials of order polytopes associated with the multilayer crown posets $C_{k,n}$. A proposed reduction to a one-dimensional transfer trace is valid in height two but fails already for $C_{3,3}$: at dilation one, the exact lattice-point count is $28$, whereas the proposed trace gives $18$. We express the count as a cylindrical two-dimensional tensor-network contraction and reconstruct the Ehrhart numerator exactly over $\mathbb{Z}$. For fixed dilation, the implemented row transfer gives an integer recurrence in the layer index by Cayley--Hamilton; its state-space bound depends on the dilation. Exact CRT contractions and rational Sturm or reduced $\Gamma$-Sturm certificates establish simple, strictly negative real roots in 19 cases, through $C_{8,5}$ of degree 32. Exact symbolic reconstruction finds finite-range recurrences for $n=4$ and, for $n=5$, rules out two bounded-degree order-four models; specialization at $t=1$ has an exact scalar order-three recurrence with coefficients $(384,-10240,-32768)$. An exact six-state transfer proves the order-two recurrence for every $n=3$ Ehrhart numerator. A phase argument then proves that all $2k$ roots are simple and lie in $(-7-4\sqrt3,-7+4\sqrt3)$ for every $k\ge2$. The remaining real-rootedness and uniform recurrence questions concern circumferences $n\ge4$.
+We study Ehrhart $h^*$-polynomials of order polytopes associated with the multilayer crown posets $C_{k,n}$. A proposed reduction to a one-dimensional transfer trace is valid in height two but fails already for $C_{3,3}$: at dilation one, the exact lattice-point count is $28$, whereas the proposed trace gives $18$. We express the count as a cylindrical two-dimensional tensor-network contraction and reconstruct the Ehrhart numerator exactly over $\mathbb{Z}$. For fixed dilation, the implemented row transfer gives an integer recurrence in the layer index by Cayley--Hamilton; its state-space bound depends on the dilation. Exact CRT contractions and rational Sturm or reduced $\Gamma$-Sturm certificates establish simple, strictly negative real roots in 19 cases, through $C_{8,5}$ of degree 32. An exact six-state transfer proves the order-two recurrence for every $n=3$ Ehrhart numerator, and a phase argument gives all $2k$ roots as simple and in $(-7-4\sqrt3,-7+4\sqrt3)$ for every $k\ge2$. For $n=4$, an exact 20-state frontier transfer proves a cubic recurrence for every $k\ge3$; certified interval phase bounds and Sturm checks prove that every actual $H_{k,4}$, $k\ge2$, has exactly $3k$ simple negative roots. The auxiliary recurrence seed at $k=1$ also has three simple negative roots. For $n=5$, two bounded-degree order-four recurrence models are inconsistent, while specialization at $t=1$ has an exact scalar order-three recurrence with coefficients $(384,-10240,-32768)$. Uniform polynomial recurrences and real-rootedness for circumferences $n\ge5$ remain open.
 \end{abstract}
 
 \small\noindent\textbf{Keywords:} Crown posets, Ehrhart polynomials, tensor networks, Sturm method, real-rootedness.
@@ -60,13 +60,19 @@ Thus $H_{k,n}(t)=h^*(\mathcal{O}(C_{k,n}),t)$ and $H_{k,n}(0)=1$.
 Lundström and Saud Maia Leite formulated the real-rootedness conjecture
 for the simple one-dimensional crown family in work originating in 2025
 \cite{LundstromLeite2026}; Cao and Fu subsequently proved the height-two
-case $k=2$ \cite{CaoFu2026}. The present computational study addresses the
-multilayer families $C_{k,n}$ with $k\ge3$. Its contributions are the
-failure of the proposed one-dimensional transfer trace beyond height two,
-a cylindrical two-dimensional tensor-network contraction, exact
-reconstruction of the Ehrhart numerators, and finite-data recurrence
-discovery. The recurrence and root-location statements for arbitrary
-parameters remain conjectural.
+case $k=2$ \cite{CaoFu2026}. The present study addresses the multilayer
+families $C_{k,n}$. Its contributions are the failure of the proposed
+one-dimensional transfer trace beyond height two, a cylindrical
+two-dimensional tensor-network contraction, exact reconstruction of the
+Ehrhart numerators, and unconditional recurrence and real-rootedness
+theorems for circumferences $n=3$ and $n=4$. For $n=3$, the exact
+six-state transfer and phase argument give $2k$ simple negative roots
+for every $k\ge2$. For $n=4$, a 20-state frontier transfer gives an
+exact cubic recurrence with auxiliary boundary seeds; a certified
+three-window phase argument gives $3k$ simple negative roots for every
+actual order-polytope numerator with $k\ge2$ (the auxiliary $k=1$ seed
+has three such roots). The corresponding uniform recurrence and
+real-rootedness questions for $n\ge5$ remain open.
 
 \subsection{Methodological correction: the one-dimensional trace}
 
@@ -98,7 +104,7 @@ The two counts differ, so the proposed one-dimensional transfer-trace identity i
 \end{proof}
 
 \begin{remark}
-This counterexample rules out the stated transfer-trace reduction; it does not rule out other one-dimensional representations for special parameters, nor does it disprove Conjecture~\ref{conj:realrooted}.
+This counterexample rules out the stated transfer-trace reduction; it does not rule out other one-dimensional representations for special parameters or decide the higher-circumference root question.
 \end{remark}
 
 \section{2D Boundary MPS Tensor Network Engine}
@@ -358,7 +364,7 @@ analyzer; it is not a uniqueness assertion among unrestricted operators
 of arbitrary degree.
 \end{proof}
 
-\begin{proposition}[Finite exact recurrence for $n=4$]
+\begin{proposition}[Finite-data reconstruction of the $n=4$ recurrence]
 \label{prop:recurrence-n4}
 For the certified levels $k=3,\ldots,7$, the exact recurrence
 \begin{equation}\label{eq:recurrence-n4}
@@ -376,7 +382,9 @@ R_4(t)&=t^8-5t^7+9t^6-5t^5\\
 \end{align*}
 Within the specified degree bounds and reciprocal-polynomial ansatz,
 the exact coefficient system is overdetermined and has a unique integral
-solution. This proposition asserts the identity only at $k=6,7$.
+solution. This proposition records the finite-data reconstruction at
+$k=6,7$; the all-$k$ identity is proved by the frontier transfer in
+Section~\ref{sec:n4-exact}.
 \end{proposition}
 
 \begin{proof}
@@ -427,26 +435,29 @@ where $P_3(t)=t^2+6t+1$ and $Q_3(t)=t^3-2t^2+t$. The operators have order $n-1$ 
 The $n=3$ identities were initially
 checked for transitions $k=4,\ldots,8$; Proposition~\ref{prop:n3-transfer}
 below proves the recurrence for every $k$. For $n=4$, the two independent
-transitions $k=6,7$ determine a unique integral solution under reciprocal
-spans $(3,6,9)$ and degree bounds $(4,7,10)$.
+transitions $k=6,7$ determine the displayed integral operators under
+reciprocal spans $(3,6,9)$ and degree bounds $(4,7,10)$; the exact
+frontier-transfer proof in Section~\ref{sec:n4-exact} establishes the
+identity for every $k\ge3$.
 
 \begin{remark}
 The coefficients shown here are obtained by exact reconstruction and
 substitution into the certified polynomials. In particular, the
 $t^3$ coefficient of $Q_3$ and the $t^8$ coefficient of $R_4$ are both
 $+1$; changing either to $-1$ does not reproduce the dataset. These
-reconstruction checks are finite; the transfer proof below establishes
-the $n=3$ identity for every $k$, while the $n=4$ identity remains
-verified only on the stated range.
+reconstruction checks are finite; the transfer proofs below establish
+the identities for $n=3$ and $n=4$ for every admissible $k$.
 \end{remark}
 
 \subsection[BKW spectral analysis for n=4]{BKW spectral analysis for the order-three $n=4$ recurrence}
 \label{sec:n4-bkw}
 
-In this subsection, assume that the $n=4$ recurrence
-\eqref{eq:recurrence-n4} holds for every $k\ge6$, with the exact initial
-polynomials $H_{3,4},H_{4,4},H_{5,4}$ from the certificates. The
-recurrence itself has so far been verified only at $k=6,7$.
+The exact frontier-transfer theorem in Section~\ref{sec:n4-exact}
+establishes recurrence~\eqref{eq:recurrence-n4} for every $k\ge3$.
+Together with the exact initial polynomials
+$H_{3,4},H_{4,4},H_{5,4}$ from the certificates, this makes the
+recurrence-generated sequence in this subsection the actual Ehrhart
+sequence.
 Let
 \[
 \chi_4(\lambda;t)=\lambda^3-P_4(t)\lambda^2-Q_4(t)\lambda-R_4(t),
@@ -542,22 +553,21 @@ Consequently, away from the isolated repeated-eigenvalue points, the
 dominant-mode coefficients are nonzero on the interior of $I_4$ and
 the unique dominant coefficient is nonzero on the exterior. At
 $t=-1$, $N(\lambda,-1)=1536\lambda$, so neither dominant coefficient
-vanishes. the Beraha--Kahane--Weiss theorem \cite{BerahaKahaneWeiss1975} therefore gives the stated
+vanishes. The Beraha--Kahane--Weiss theorem \cite{BerahaKahaneWeiss1975} therefore gives the stated
 accumulation set on $(-\infty,0)$; the closure includes the two
 endpoints.
 \end{proof}
 
 \begin{remark}
-The BKW accumulation theorem does not imply that every zero is real or
-simple for all sufficiently large $k$. Exact Sturm checks show that
-the recurrence-generated polynomials have $3k$ simple roots in
-$(-79,-1/79)\subset I_4$ for $k=3,\ldots,12$, but this finite range is
-not a proof for all large $k$. To make the assertion unconditional for
-the actual $H_{k,4}$, one must first prove the order-three recurrence
-for every $k$, and then establish a uniform real-zero count (for
-example, a sign-change argument producing $3k$ distinct zeros).
-No analogous recurrence or spectral analysis has been established here
-for $n\ge5$.
+The BKW accumulation theorem alone does not imply that every zero is
+real or simple for every $k$. Theorem~\ref{thm:n4-real-rooted} below
+supplies the separate uniform sign-change argument: it proves that the
+actual $H_{k,4}$ has exactly $3k$ simple negative roots for every
+$k\ge2$; the auxiliary recurrence seed at $k=1$ has three. Independent
+exact Sturm checks place all roots in
+$[-79,-1/79]\subset I_4$ for $k=3,\ldots,12$. No analogous
+all-$k$ recurrence or real-rootedness theorem is established here for
+$n\ge5$.
 \end{remark}
 
 \subsection[Stage 1: exact transfer and real-rootedness for n=3]{Stage 1: an exact transfer and real-rootedness for $n=3$}
@@ -737,18 +747,190 @@ $2k$ and leading coefficient one, while $Q_3H_{k-2,3}$ has degree
 $2k-1$. Thus the displayed roots account for all roots.
 \end{proof}
 
+\section{Exact transfer and real-rootedness for $n=4$}
+\label{sec:n4-exact}
+
+\begin{theorem}[Exact cubic recurrence for $n=4$]
+\label{thm:n4-transfer}
+Define the recurrence seeds $\widehat H_{0,4}(t)=1$ and
+$\widehat H_{1,4}(t)=t^3+11t^2+11t+1$, and put
+$\widehat H_{k,4}=H_{k,4}$ for $k\ge2$. Then for every $k\ge3$,
+\[
+\widehat H_{k,4}(t)=P_4(t)\widehat H_{k-1,4}(t)
++Q_4(t)\widehat H_{k-2,4}(t)+R_4(t)\widehat H_{k-3,4}(t).
+\]
+The seed $\widehat H_{1,4}$ is an auxiliary recurrence value, not the
+$h^*$-polynomial of $\mathcal O(C_{1,4})$; the order-polytope family in
+this paper is defined for $k\ge2$. The recurrence is verified with the
+stated seeds at $k=3,4$; from $k=5$ onward all lagged terms are actual
+members of the order-polytope family.
+\end{theorem}
+
+\begin{proof}
+At a cut after $r$ complete layers, an order ideal is encoded by its
+four column heights $h_i$. They satisfy
+\[
+\sum_{i=0}^3h_i=4r,\qquad 0\le h_i\le r+1,\qquad
+h_i\le h_{i-1}+1
+\]
+with cyclic indices. Set $d_i=h_i-r$. Then
+$\sum_i d_i=0$, $d_i\le1$, and hence $-3\le d_i\le1$.
+The admissible deviation vectors consequently belong to a fixed finite
+set, independent of $r\ge3$. The canonical boundary state records the
+occupancy masks of the last two rows and the row offset and column of
+the last maximal element. Exact enumeration gives 20 states; the
+canonical state sets at $r=2$ and $r=3$ agree. Adding a layer therefore
+uses a fixed matrix $M(t)\in\mathbb Z[t]$, with boundary vectors
+$u(t),v(t)$ such that
+\[
+\widehat H_{k,4}(t)=u(t)M(t)^{k-3}v(t),\qquad k\ge3.
+\]
+The exact 20-state frontier computation verifies the vector identity
+\[
+\bigl(M^3-P_4M^2-Q_4M-R_4I\bigr)v=0.
+\]
+Multiplication by $uM^j$ gives the scalar recurrence for $k\ge6$;
+exact evaluation for the initial levels $k=3,4,5$ completes the
+induction. This is a vector annihilator on the reachable boundary state,
+not a claim that the full $20\times20$ characteristic polynomial is
+cubic. The identities and the transition construction are reproduced
+by the scripts cited in Section~\ref{sec:n4-reproducibility}.
+\end{proof}
+
+Let
+\[
+\chi_4(\lambda;t)=\lambda^3-P_4(t)\lambda^2-Q_4(t)\lambda-R_4(t).
+\]
+Its exact discriminant is
+\[
+\Delta_4(t)=-4t\,q_4(t)q_6(t)^2,
+\]
+where $q_4,q_6$ are defined in Section~\ref{sec:n4-bkw}. The roots of
+$q_4$ delimit
+\[
+I_4=(\beta_-,\beta_+),\qquad
+\beta_\pm=\frac{z_0\pm\sqrt{z_0^2-4}}2,\qquad
+z_0=-38-24\sqrt3.
+\]
+There are exactly two simple roots of $q_6$ in $I_4$, denoted
+$\tau_1\simeq-3.43723137546$ and
+$\tau_2\simeq-0.29093182587$. Their exact rational isolators are
+recorded in the machine-readable certificate cited in
+Section~\ref{sec:n4-reproducibility}.
+The sign of $q_6$ on the three consecutive windows
+$(\beta_-,\tau_1)$, $(\tau_1,\tau_2)$, and $(\tau_2,\beta_+)$ is
+$+,-,+$, respectively.
+
+\begin{theorem}[Exactly $3k$ simple negative roots for $n=4$]
+\label{thm:n4-real-rooted}
+For every actual family member $k\ge2$, $H_{k,4}(t)$ has exactly
+$3k$ distinct, simple, strictly negative roots. For $k\ge3$, all
+these roots lie in $I_4$. The auxiliary recurrence seed
+$\widehat H_{1,4}$ has three distinct, simple, strictly negative roots.
+\end{theorem}
+
+\begin{proof}
+The two $q_6$ zeros are eigenvalue contacts, not endpoints at which the
+nonreal pair ceases to be dominant. Set
+\[
+p(t)=-Q_4(t)-\frac{P_4(t)^2}{3},\qquad
+r(t)=-\frac{2P_4(t)^3}{27}-\frac{P_4(t)Q_4(t)}3-R_4(t).
+\]
+Let $s(t)$ be the real root of the depressed characteristic cubic
+$s^3+p(t)s+r(t)=0$, and put
+$D(t)=3s(t)^2+p(t)$. Exact reduction modulo this cubic gives the
+analytic eigenvalue branch
+\[
+\widetilde\lambda_2(t)
+=-\frac{s(t)}2+\frac{P_4(t)}3
++i\,q_6(t)\frac{\sqrt{tq_4(t)}}{D(t)}.
+\]
+Its signed imaginary part is allowed to change sign at both contacts.
+At $\tau_1$ it crosses the positive real axis from above to below; at
+$\tau_2$ it crosses the negative real axis from below to above. The
+continuous argument lift decreases by exactly $\pi$ on each of
+$(\beta_-,\tau_1)$, $(\tau_1,\tau_2)$, and $(\tau_2,\beta_+)$, and
+therefore has
+$\Delta\arg\widetilde\lambda_2=-3\pi$ over $I_4$. In contrast, the
+spectral coefficient of this analytic branch does not have a single
+continuous argument through both contacts: its one-sided limits differ
+by conjugation. We therefore track the coefficient phase separately on
+each of the three open windows.
+
+On each window, write the real eigenvalue as $\lambda_1$ and the
+conjugate pair as $\lambda_2,\overline{\lambda_2}$, so that
+\[
+\widehat H_{k,4}(t)=c_1(t)\lambda_1(t)^k
++2\operatorname{Re}\!\left(c_2(t)\lambda_2(t)^k\right).
+\]
+The exact 80-digit interval audit subdivides $I_4$ into 2,000 cells:
+1,998 interior cells and two endpoint cells of width $10^{-12}$. It
+certifies throughout that
+\[
+\mathcal E_2(t):=
+\frac{|c_1(t)|}{2|c_2(t)|}
+\left(\frac{|\lambda_1(t)|}{|\lambda_2(t)|}\right)^2<0.02,
+\qquad
+\frac{|\lambda_1(t)|}{|\lambda_2(t)|}<0.24.
+\]
+Consequently, for every $k\ge2$,
+$\mathcal E_k(t)\le\mathcal E_2(t)<0.02<1/\sqrt2$.
+At phase levels where
+$\Phi_k(t)=\arg c_2(t)+k\arg\lambda_2(t)$ is an integer multiple of
+$\pi$, or is one of the contact phases $\theta_i$ or $k\pi-\theta_i$,
+the cosine has magnitude at least $1/\sqrt2$. The conjugate pair
+therefore determines the strict sign of $H_{k,4}(t)$.
+
+For completeness, the certified one-sided phase data at the window
+endpoints are
+\[
+\begin{array}{c|c|c|c}
+\text{endpoint}&\arg\lambda_2&\arg c_2&\Phi_k\\ \hline
+\beta_-&\pi&\pi/2&(k+\tfrac12)\pi\\
+\tau_1&0&\theta_1&\theta_1\\
+\tau_2&\pi&-\theta_2&k\pi-\theta_2\\
+\beta_+&0&-\pi/2&-\pi/2
+\end{array}
+\qquad 0<\theta_1,\theta_2<\pi/4.
+\]
+The intervals for $\theta_1,\theta_2$ are certified in the machine
+certificate. For every $k\ge3$, ordered phase levels with alternating
+signs are
+\[
+\begin{array}{ll}
+(\beta_-,\tau_1):&
+k\pi,(k-1)\pi,\ldots,\pi,\theta_1,\\
+(\tau_1,\tau_2):&
+\theta_1,\pi,2\pi,\ldots,(k-1)\pi,k\pi-\theta_2,\\
+(\tau_2,\beta_+):&
+k\pi-\theta_2,(k-1)\pi,\ldots,\pi,0.
+\end{array}
+\]
+Continuity on each window and the endpoint phases show that these
+levels are attained in order. The strict sign bound above gives at
+least $k$ sign changes in each window, hence at least $3k$ distinct
+negative roots. The recurrence
+shows inductively that $H_{k,4}$ is monic of degree $3k$; therefore
+these roots exhaust its degree and are simple. Exact Sturm counts for
+$\widehat H_{1,4}$ and actual $H_{2,4}$ have, by exact Sturm counts,
+three and six distinct negative roots, respectively. This supplies the
+auxiliary seed and the first actual family case. Independent exact Sturm
+checks for $k=3,\ldots,12$ locate all roots in
+$[-79,-1/79]\subset I_4$.
+\end{proof}
+
 \section{Real-Rootedness \& Interlacing Implications}
 \label{sec:root-implications}
 
 \begin{conjecture}[Higher-layer negative real-rootedness]
 \label{conj:realrooted}
-For every $k\ge3$ and $n\ge4$, all zeros of $H_{k,n}(t)$ are negative
+For every $k\ge3$ and $n\ge5$, all zeros of $H_{k,n}(t)$ are negative
 real numbers and are simple.
 \end{conjecture}
 
 \begin{conjecture}[Cylindrical recurrence of order $n-1$]
 \label{conj:universal-recurrence}
-For each fixed circumference $n\ge4$, there are polynomials
+For each fixed circumference $n\ge5$, there are polynomials
 $A_{1,n}(t),\ldots,A_{n-1,n}(t)\in\mathbb{Z}[t]$, independent of $k$,
 such that the recurrence holds for every $k\ge n$, where all lagged
 polynomials $H_{k-j,n}$ are defined:
@@ -757,15 +939,16 @@ H_{k,n}(t)=\sum_{j=1}^{n-1}A_{j,n}(t)H_{k-j,n}(t).
 \]
 \end{conjecture}
 
-The six-state transfer proves the order-two recurrence for every
-$H_{k,3}$. For $n=4$, the order-three identity is verified only on the
-stated finite range. For $n=5$, the order-four searches above exclude
+The six-state and 20-state transfers prove the order-two and order-three
+recurrences for $n=3$ and $n=4$, respectively. For $n=5$, the
+order-four searches above exclude
 the two specified degree-bounded models, not every possible polynomial
 operator of arbitrary degree. The fixed-dilation transfer theorem proves
 recurrences for $L_{k,n}(m)$, but does not establish
-Conjecture~\ref{conj:universal-recurrence} for $n\ge4$.
-Theorem~\ref{thm:n3-real-rooted} settles real-rootedness unconditionally
-for $n=3$; the remaining real-rootedness conjecture concerns $n\ge4$.
+Conjecture~\ref{conj:universal-recurrence} for $n\ge5$.
+Theorems~\ref{thm:n3-real-rooted} and~\ref{thm:n4-real-rooted} settle
+real-rootedness unconditionally for $n=3,4$; the remaining
+real-rootedness conjecture concerns $n\ge5$.
 
 \subsection[Characteristic discriminant for the exact n=3 recurrence]{Characteristic discriminant for the exact $n=3$ recurrence}
 
@@ -808,7 +991,7 @@ general theorem is inferred from the current finite dataset.
 
 \section{Concluding Remarks \& Future Work}
 
-The height-two transfer trace is justified by summing out a single layer, but the explicit $C_{3,3}$ count shows that the proposed one-dimensional extension does not preserve lattice-point counts for higher layers. The cylindrical tensor network retains the full local coupling, and its fixed-dilation row transfer proves integer recurrences for the lattice-point counts. For $n=3$, the exact six-state transfer proves an order-two recurrence for every Ehrhart numerator; the phase argument then gives $2k$ simple roots in $I_3$ for all $k\ge2$. Exact CRT contraction and binomial-basis reconstruction yield reproducible integer polynomials; Sturm certificates verify simple negative real-rootedness for all 19 finite cases in Table~\ref{tab:exact}, through $C_{8,5}$. Thus the remaining real-rootedness conjecture concerns $n\ge4$. For $n=5$, two bounded-degree order-four systems are inconsistent, while the exact scalar specialization is \eqref{eq:scalar-n5}. A uniform polynomial recurrence for $n\ge4$ and higher-layer real-rootedness remain open. Future work includes constructing fixed-dimensional transfers for higher circumferences and proving root-location or generalized interlacing results uniformly in $k,n$.
+The height-two transfer trace is justified by summing out a single layer, but the explicit $C_{3,3}$ count shows that the proposed one-dimensional extension does not preserve lattice-point counts for higher layers. The cylindrical tensor network retains the full local coupling, and its fixed-dilation row transfer proves integer recurrences for the lattice-point counts. For $n=3$, the exact six-state transfer proves an order-two recurrence for every Ehrhart numerator; the phase argument then gives $2k$ simple roots in $I_3$ for all $k\ge2$. For $n=4$, the exact 20-state frontier transfer proves the cubic recurrence for all $k\ge3$, and the certified three-window argument together with the base Sturm checks proves exactly $3k$ simple negative roots for every actual family member $k\ge2$; the auxiliary recurrence seed at $k=1$ is also certified. Exact CRT contraction and binomial-basis reconstruction yield reproducible integer polynomials; Sturm certificates also verify simple negative real-rootedness for all 19 finite cases in Table~\ref{tab:exact}, through $C_{8,5}$. Thus the remaining real-rootedness conjecture concerns $n\ge5$. For $n=5$, two bounded-degree order-four systems are inconsistent, while the exact scalar specialization is \eqref{eq:scalar-n5}. A uniform polynomial recurrence for $n\ge5$ and real-rootedness for these higher circumferences remain open. Future work includes constructing fixed-dimensional transfers for higher circumferences and proving root-location or generalized interlacing results uniformly in $k,n$.
 
 The full-layer step raises the degree by $n-1$, while the finite tests of the transfer at $t=-s$ found neither total nonnegativity nor a diagonal sign conjugation to a nonnegative matrix. A vertex-by-vertex interpolation through order ideals, whose height profiles satisfy $h_i\le h_{i-1\pmod n}+1$, instead gives
 $C_{k,n}=P_0\subset P_1\subset\cdots\subset P_n=C_{k+1,n}$ and the exact decomposition
@@ -817,9 +1000,10 @@ $H_I(t)=\sum_{m\in\max(I)}H_I^{(m)}(t)$ by last maximal element. The maximal-del
 H_I^{(m)}(t)=\sum_{w\in\max(I\setminus\{m\})}
 t^{\mathbf{1}[w>m]}H_{I\setminus\{m\}}^{(w)}(t)
 \]
-was verified on all tested ideals. The directed interlacing sequence also held at every step of the five tested intermediate chains for $n\in\{3,4,5\}$; this finite evidence suggests a natural induction program for the conjecture at all $n\ge4$, but does not establish such an induction. In particular, the exhaustive ideal test for $C_{3,5}$ had two exceptions to complete directed interlacing.
+was verified on all tested ideals. The directed interlacing sequence also held at every step of the five tested intermediate chains for $n\in\{3,4,5\}$; this finite evidence suggests a possible induction program for generalized interlacing, but does not establish such an induction. In particular, the exhaustive ideal test for $C_{3,5}$ had two exceptions to complete directed interlacing.
 
 \subsection{Data \& Code Availability}
+\label{sec:n4-reproducibility}
 
 The source code is in the sibling project directory \texttt{TENSORES 2D/}:
 the tensor-network engine and exact reconstruction modules are in
@@ -831,8 +1015,14 @@ are carried out by \texttt{core/interlacing\_analyzer.py}. The
 certificates record the polynomial coefficients and exact Sturm data
 needed to reproduce the finite checks reported here. The exact $n=3$
 transfer proof is independently checked by
-\texttt{verify\_n3\_symbolic.py}; the $n=4$ spectral calculations are
-checked by \texttt{verify\_n4\_bkw.py}.
+\texttt{verify\_n3\_symbolic.py}. The $n=4$ proof is documented in
+\path{PROOF_N4_TRANSFER/theorem_n4_proof.tex}; its machine-readable
+certificate is \path{PROOF_N4_TRANSFER/certificado_teorema_n4.json}.
+The transfer, interval, and Sturm checks can be rerun with
+\texttt{verify\_n4\_frontier\_transfer.py},
+\texttt{audit\_n4\_right\_window.py},
+\texttt{audit\_n4\_q6\_branch.py}, and
+\texttt{certify\_n4\_unconditional\_theorem.py}, respectively.
 
 \begin{thebibliography}{9}
 \bibitem{LundstromLeite2026}

@@ -8,6 +8,10 @@
     <title>Papers de matemáticas · Math Papers</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="FORMATO%201/app.js" defer></script>
+    <script src="BENCHMARK_D40/paper_viewer.js" defer></script>
+    <script src="LEE_YANG_PHYSICS/lee_yang_paper_viewer.js" defer></script>
+    <script src="CYCLIC_PIPELINE_SLA/cyclic_pipeline_sla_viewer.js" defer></script>
+    <script src="TREEWIDTH_TENSOR_CRT/treewidth_paper_viewer.js" defer></script>
   </head>
   <body>
     <div class="page-frame" id="inicio">
@@ -32,7 +36,7 @@
         <section class="collection" id="papers" aria-labelledby="collection-title">
           <div class="collection-heading">
             <h2 id="collection-title">Colección</h2>
-            <span class="collection-count" id="collection-count">1 artículo</span>
+            <span class="collection-count" id="collection-count">5 art&#237;culos</span>
           </div>
 
           <label class="search-box" for="paper-search">
@@ -41,21 +45,112 @@
           </label>
 
           <div class="paper-list" id="paper-list">
-            <article class="paper-item" data-paper data-search="numeradores ehrhart exactos raíces reales politopos orden coronas multicapa redes tensores teorema n=3 exact ehrhart numerators real-rootedness crown order polytopes wendel león alvarado combinatoria geometría discreta">
+            <article class="paper-item" data-paper data-search="numeradores ehrhart exactos raíces reales negativas politopos orden coronas multicapa redes tensores teoremas n=3 n=4 recurrencia cúbica transferencia 20 estados exact ehrhart numerators negative real-rootedness crown order polytopes n=3 n=4 recurrence 20-state transfer wendel león alvarado combinatoria geometría discreta">
               <div class="paper-meta">
                 <span class="paper-subject">Combinatoria · Geometría discreta</span>
                 <span class="paper-languages" aria-label="Disponible en español e inglés"><span>ES</span><span>EN</span></span>
               </div>
               <div class="paper-main">
                 <div class="paper-info">
-                  <h3>Numeradores de Ehrhart exactos y raíces reales en politopos de orden de coronas multicapa: redes de tensores y un teorema exacto para <i>n</i> = 3</h3>
+                  <h3>Numeradores de Ehrhart exactos y raíces reales negativas en politopos de orden de coronas multicapa: redes de tensores y teoremas exactos para <i>n</i> = 3, 4</h3>
                   <p class="paper-author">Wendel León Alvarado</p>
+                  <p class="paper-date"><time datetime="2026-11-11">11 de noviembre de 2026</time></p>
+                  <p class="paper-description">Para <i>n</i> = 3, una transferencia de seis estados prueba 2<i>k</i> raíces negativas simples para <i>k</i> ≥ 2. Para <i>n</i> = 4, una transferencia de 20 estados y una certificación intervalar prueban 3<i>k</i> raíces negativas simples para cada politopo <i>C</i><sub><i>k</i>,4</sub>, <i>k</i> ≥ 2; la semilla auxiliar de recurrencia en <i>k</i> = 1 también está certificada. Los casos uniformes <i>n</i> ≥ 5 permanecen abiertos.</p>
+                  <div class="paper-resource-links">
+                    <a href="PROOF_N4_TRANSFER/certificado_teorema_n4.json" target="_blank" rel="noreferrer">Certificado exacto n = 4 (JSON)</a>
+                  </div>
                 </div>
                 <div class="paper-actions">
                   <a class="repository-link" href="https://github.com/collab563/papers" target="_blank" rel="noopener noreferrer">
                     Repositorio <span aria-hidden="true">↗</span>
                   </a>
                   <button class="open-paper" type="button" data-open-viewer data-language="es">
+                    Abrir PDF <span aria-hidden="true">↗</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+            <article class="paper-item" data-paper data-search="exact high-dimensional ehrhart polynomials volumes cylindrical tensor contraction chinese remainder reconstruction tensor crt polinomios volumenes alta dimension contraccion tensorial cilindrica teorema chino resto wendel leon alvarado order polytope conteo exacto triangulacion dimension 40">
+              <div class="paper-meta">
+                <span class="paper-subject">Geometría discreta · Cómputo exacto</span>
+                <span class="paper-languages" aria-label="Disponible en español e inglés"><span>ES</span><span>EN</span></span>
+              </div>
+              <div class="paper-main">
+                <div class="paper-info">
+                  <h3>Polinomios y vol&uacute;menes de Ehrhart exactos en alta dimensi&oacute;n mediante contracci&oacute;n tensorial cil&iacute;ndrica y reconstrucci&oacute;n por el teorema chino del resto</h3>
+                  <p class="paper-author">Wendel León Alvarado</p>
+                  <p class="paper-date"><time datetime="2026-11-12">12 de noviembre de 2026</time></p>
+                </div>
+                <div class="paper-actions">
+                  <a class="repository-link" href="https://github.com/collab563/papers" target="_blank" rel="noopener noreferrer">
+                    Repositorio <span aria-hidden="true">↗</span>
+                  </a>
+                  <button class="open-paper" type="button" data-open-d40-viewer data-language="es">
+                    Abrir PDF <span aria-hidden="true">↗</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+            <article class="paper-item" data-paper data-search="exact lee-yang zeros self-dual susceptibility lee-yang gap scaling cylindrical multilayer solid-on-solid models ceros exactos susceptibilidad autodual brecha lee-yang modelos cilíndricos sos física estadística wendel león alvarado bkw">
+              <div class="paper-meta">
+                <span class="paper-subject">F&iacute;sica estad&iacute;stica &middot; Ceros de Lee&ndash;Yang</span>
+                <span class="paper-languages" aria-label="Disponible en espa&ntilde;ol e ingl&eacute;s"><span>ES</span><span>EN</span></span>
+              </div>
+              <div class="paper-main">
+                <div class="paper-info">
+                  <h3>Ceros exactos de Lee&ndash;Yang, susceptibilidad autodual y escalamiento de la brecha de Lee&ndash;Yang en modelos cil&iacute;ndricos SOS multicapa</h3>
+                  <p class="paper-author">Wendel Le&oacute;n Alvarado</p>
+                  <p class="paper-date"><time datetime="2026-11-12">12 de noviembre de 2026</time></p>
+                </div>
+                <div class="paper-actions">
+                  <a class="repository-link" href="https://github.com/collab563/papers" target="_blank" rel="noopener noreferrer">
+                    Repositorio <span aria-hidden="true">↗</span>
+                  </a>
+                  <button class="open-paper" type="button" data-open-lee-yang-viewer aria-label="Abrir el tercer art&iacute;culo en PDF">
+                    Abrir PDF <span aria-hidden="true">↗</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+            <article class="paper-item" data-paper data-search="exact linear-time schedule counting unbiased sampling pitman chernoff sla guarantees cyclic parallel pipelines exact schedules uniform sampling latency congestion planificacion ciclica conteo exacto muestreo uniforme garantias latencia congestion pitman chernoff wendel leon alvarado">
+              <div class="paper-meta">
+                <span class="paper-subject">Investigaci&oacute;n operativa &middot; Planificaci&oacute;n y SLA</span>
+                <span class="paper-languages" aria-label="Metadatos en espa&ntilde;ol e ingl&eacute;s; PDF en ingl&eacute;s"><span>ES</span><span>EN</span></span>
+              </div>
+              <div class="paper-main">
+                <div class="paper-info">
+                  <h3>Conteo exacto de planificaciones en tiempo lineal, muestreo sin sesgo y garant&iacute;as SLA de Pitman&ndash;Chernoff para pipelines paralelos c&iacute;clicos</h3>
+                  <p class="paper-author">Wendel Le&oacute;n Alvarado</p>
+                  <p class="paper-date"><time datetime="2026-11-12">12 de noviembre de 2026</time></p>
+                  <p class="paper-description">Un algoritmo exacto cuenta planificaciones v&aacute;lidas en tiempo lineal y genera muestras uniformes. Las cotas de Pitman&ndash;Chernoff y Hoeffding cuantifican la congesti&oacute;n hasta 500&nbsp;000 tareas.</p>
+                </div>
+                <div class="paper-actions">
+                  <a class="repository-link" href="https://github.com/collab563/papers/tree/main/CYCLIC_PIPELINE_SLA" target="_blank" rel="noopener noreferrer">
+                    Repositorio <span aria-hidden="true">↗</span>
+                  </a>
+                  <button class="open-paper" type="button" data-open-sla-viewer aria-label="Abrir el cuarto art&iacute;culo en PDF">
+                    Abrir PDF <span aria-hidden="true">↗</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+            <article class="paper-item" data-paper data-search="exact high-dimensional ehrhart polynomials volumes bounded-treewidth order polytopes nice tree decompositions crt exactos polinomios ehrhart volumen politopos orden treewidth acotado descomposiciones árbol tensores teorema chino resto redes dag series paralelas wendel leon alvarado">
+              <div class="paper-meta">
+                <span class="paper-subject">Geometr&iacute;a discreta &middot; C&oacute;mputo exacto &middot; Treewidth</span>
+                <span class="paper-languages" aria-label="Metadatos en espa&ntilde;ol e ingl&eacute;s; PDF en ingl&eacute;s"><span>ES</span><span>EN</span></span>
+              </div>
+              <div class="paper-main">
+                <div class="paper-info">
+                  <h3>Polinomios y vol&uacute;menes de Ehrhart exactos de politopos de orden de alta dimensi&oacute;n mediante descomposiciones nice y CRT</h3>
+                  <p class="paper-author">Wendel Le&oacute;n Alvarado</p>
+                  <p class="paper-date"><time datetime="2026-11-12">12 de noviembre de 2026</time></p>
+                  <p class="paper-description">Un algoritmo de tensores sobre descomposiciones de &aacute;rbol reconstruye exactamente los polinomios de Ehrhart y los vol&uacute;menes racionales en 12 instancias de hasta dimensi&oacute;n 40.</p>
+                </div>
+                <div class="paper-actions">
+                  <a class="repository-link" href="https://github.com/collab563/papers/tree/main/TREEWIDTH_TENSOR_CRT" target="_blank" rel="noopener noreferrer">
+                    Repositorio <span aria-hidden="true">↗</span>
+                  </a>
+                  <button class="open-paper" type="button" data-open-treewidth-viewer aria-label="Abrir el quinto art&iacute;culo en PDF">
                     Abrir PDF <span aria-hidden="true">↗</span>
                   </button>
                 </div>
@@ -77,8 +172,9 @@
         <header class="viewer-header">
           <div class="viewer-heading">
             <p class="eyebrow">LECTOR PDF</p>
-            <h2 id="viewer-title">Numeradores de Ehrhart exactos y raíces reales en politopos de orden de coronas multicapa: redes de tensores y un teorema exacto para n = 3</h2>
+            <h2 id="viewer-title">Numeradores de Ehrhart exactos y raíces reales negativas en politopos de orden de coronas multicapa: redes de tensores y teoremas exactos para n = 3, 4</h2>
             <p class="viewer-current" id="viewer-current" aria-live="polite">Versión en español</p>
+            <p class="viewer-description" id="viewer-description">Para n = 3, una transferencia de seis estados prueba 2k raíces negativas simples para k ≥ 2. Para n = 4, una transferencia de 20 estados y una certificación intervalar prueban 3k raíces negativas simples para cada politopo C(k,4), k ≥ 2; la semilla auxiliar de recurrencia en k = 1 también está certificada. Los casos uniformes n ≥ 5 permanecen abiertos.</p>
           </div>
           <div class="viewer-tools">
             <div class="language-switch" role="group" aria-label="Idioma del paper">
@@ -93,6 +189,106 @@
         </header>
         <div class="viewer-frame-wrap">
           <iframe id="paper-frame" title="Paper en español, documento PDF" src="FORMATO%201/articulo_es.pdf#view=FitH&amp;toolbar=1&amp;navpanes=0"></iframe>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="paper-dialog" id="d40-paper-dialog" aria-labelledby="d40-viewer-title">
+      <div class="viewer-shell">
+        <header class="viewer-header">
+          <div class="viewer-heading">
+            <p class="eyebrow">LECTOR PDF</p>
+            <h2 id="d40-viewer-title">Polinomios y volúmenes de Ehrhart exactos en alta dimensión mediante contracción tensorial cilíndrica y reconstrucción por el teorema chino del resto</h2>
+            <p class="viewer-current" id="d40-viewer-current" aria-live="polite">Versión en español</p>
+          </div>
+          <div class="viewer-tools">
+            <div class="language-switch" role="group" aria-label="Idioma del segundo paper">
+              <button type="button" data-d40-viewer-language="es" aria-pressed="true">ES <span>Español</span></button>
+              <button type="button" data-d40-viewer-language="en" aria-pressed="false">EN <span>English</span></button>
+            </div>
+            <a class="viewer-action" id="d40-viewer-open" href="BENCHMARK_D40/paper_tensor_crt_es.pdf" target="_blank" rel="noreferrer">Abrir aparte ↗</a>
+            <a class="viewer-action" id="d40-viewer-download" href="BENCHMARK_D40/paper_tensor_crt_es.pdf" download="paper_tensor_crt_es.pdf">Descargar ↓</a>
+            <button class="viewer-close" type="button" data-close-d40-viewer aria-label="Cerrar visor del segundo paper">×</button>
+          </div>
+        </header>
+        <div class="viewer-frame-wrap">
+          <iframe id="d40-paper-frame" title="Paper en español, documento PDF" src="BENCHMARK_D40/paper_tensor_crt_es.pdf#view=FitH&amp;toolbar=1&amp;navpanes=0"></iframe>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="paper-dialog" id="lee-yang-paper-dialog" aria-labelledby="lee-yang-viewer-title">
+      <div class="viewer-shell">
+        <header class="viewer-header">
+          <div class="viewer-heading">
+            <p class="eyebrow">LECTOR PDF</p>
+            <h2 id="lee-yang-viewer-title">Ceros exactos de Lee&ndash;Yang, susceptibilidad autodual y escalamiento de la brecha de Lee&ndash;Yang en modelos cil&iacute;ndricos SOS multicapa</h2>
+            <p class="viewer-current" id="lee-yang-viewer-current" aria-live="polite">Versi&oacute;n en espa&ntilde;ol</p>
+          </div>
+          <div class="viewer-tools">
+            <div class="language-switch" role="group" aria-label="Idioma del tercer art&iacute;culo">
+              <button type="button" data-lee-yang-language="es" aria-pressed="true">ES <span>Espa&ntilde;ol</span></button>
+              <button type="button" data-lee-yang-language="en" aria-pressed="false">EN <span>English</span></button>
+            </div>
+            <a class="viewer-action" id="lee-yang-viewer-open" href="LEE_YANG_PHYSICS/paper_lee_yang_physics_es.pdf" target="_blank" rel="noreferrer">Abrir aparte</a>
+            <a class="viewer-action" id="lee-yang-viewer-download" href="LEE_YANG_PHYSICS/paper_lee_yang_physics_es.pdf" download="paper_lee_yang_physics_es.pdf">Descargar</a>
+            <button class="viewer-close" type="button" data-close-lee-yang-viewer aria-label="Cerrar visor del tercer art&iacute;culo">&times;</button>
+          </div>
+        </header>
+        <div class="viewer-frame-wrap">
+          <iframe id="lee-yang-paper-frame" title="Tercer art&iacute;culo, documento PDF" src="LEE_YANG_PHYSICS/paper_lee_yang_physics_es.pdf#view=FitH&amp;toolbar=1&amp;navpanes=0"></iframe>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="paper-dialog" id="sla-paper-dialog" aria-labelledby="sla-viewer-title">
+      <div class="viewer-shell">
+        <header class="viewer-header">
+          <div class="viewer-heading">
+            <p class="eyebrow">LECTOR PDF</p>
+            <h2 id="sla-viewer-title">Conteo exacto de planificaciones en tiempo lineal, muestreo sin sesgo y garant&iacute;as SLA de Pitman&ndash;Chernoff para pipelines paralelos c&iacute;clicos</h2>
+            <p class="viewer-current" id="sla-viewer-current" aria-live="polite">Ficha en espa&ntilde;ol &middot; PDF disponible en ingl&eacute;s</p>
+            <p class="viewer-description" id="sla-viewer-description">Un algoritmo exacto cuenta planificaciones v&aacute;lidas en tiempo lineal y genera muestras uniformes. Las cotas de Pitman&ndash;Chernoff y Hoeffding cuantifican la congesti&oacute;n hasta 500&nbsp;000 tareas.</p>
+          </div>
+          <div class="viewer-tools">
+            <div class="language-switch" role="group" aria-label="Idioma del cuarto art&iacute;culo">
+              <button type="button" data-sla-viewer-language="es" aria-pressed="true">ES <span>Espa&ntilde;ol</span></button>
+              <button type="button" data-sla-viewer-language="en" aria-pressed="false">EN <span>English</span></button>
+            </div>
+            <a class="viewer-action repository-viewer-link" href="https://github.com/collab563/papers/tree/main/CYCLIC_PIPELINE_SLA" target="_blank" rel="noopener noreferrer">Repositorio ↗</a>
+            <a class="viewer-action" id="sla-viewer-open" href="CYCLIC_PIPELINE_SLA/paper_cyclic_pipeline_sla.pdf" target="_blank" rel="noreferrer">Abrir aparte ↗</a>
+            <a class="viewer-action" id="sla-viewer-download" href="CYCLIC_PIPELINE_SLA/paper_cyclic_pipeline_sla.pdf" download="paper_cyclic_pipeline_sla.pdf">Descargar ↓</a>
+            <button class="viewer-close" type="button" data-close-sla-viewer aria-label="Cerrar visor del cuarto art&iacute;culo">&times;</button>
+          </div>
+        </header>
+        <div class="viewer-frame-wrap">
+          <iframe id="sla-paper-frame" title="Cuarto art&iacute;culo, documento PDF en ingl&eacute;s" src="CYCLIC_PIPELINE_SLA/paper_cyclic_pipeline_sla.pdf#view=FitH&amp;toolbar=1&amp;navpanes=0"></iframe>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="paper-dialog" id="treewidth-paper-dialog" aria-labelledby="treewidth-viewer-title">
+      <div class="viewer-shell">
+        <header class="viewer-header">
+          <div class="viewer-heading">
+            <p class="eyebrow">LECTOR PDF</p>
+            <h2 id="treewidth-viewer-title">Polinomios y vol&uacute;menes de Ehrhart exactos de politopos de orden de alta dimensi&oacute;n mediante descomposiciones nice y CRT</h2>
+            <p class="viewer-current" id="treewidth-viewer-current" aria-live="polite">Ficha en espa&ntilde;ol &middot; PDF disponible en ingl&eacute;s</p>
+            <p class="viewer-description" id="treewidth-viewer-description">Un algoritmo de tensores sobre descomposiciones de &aacute;rbol reconstruye exactamente los polinomios de Ehrhart y los vol&uacute;menes racionales. Incluye 12 instancias de hasta dimensi&oacute;n 40.</p>
+          </div>
+          <div class="viewer-tools">
+            <div class="language-switch" role="group" aria-label="Idioma del quinto art&iacute;culo">
+              <button type="button" data-treewidth-viewer-language="es" aria-pressed="true">ES <span>Espa&ntilde;ol</span></button>
+              <button type="button" data-treewidth-viewer-language="en" aria-pressed="false">EN <span>English</span></button>
+            </div>
+            <a class="viewer-action repository-viewer-link" href="https://github.com/collab563/papers/tree/main/TREEWIDTH_TENSOR_CRT" target="_blank" rel="noopener noreferrer">Repositorio ↗</a>
+            <a class="viewer-action" id="treewidth-viewer-open" href="TREEWIDTH_TENSOR_CRT/paper_treewidth_tensor_crt.pdf" target="_blank" rel="noreferrer">Abrir aparte ↗</a>
+            <a class="viewer-action" id="treewidth-viewer-download" href="TREEWIDTH_TENSOR_CRT/paper_treewidth_tensor_crt.pdf" download="paper_treewidth_tensor_crt.pdf">Descargar ↓</a>
+            <button class="viewer-close" type="button" data-close-treewidth-viewer aria-label="Cerrar visor del quinto art&iacute;culo">&times;</button>
+          </div>
+        </header>
+        <div class="viewer-frame-wrap">
+          <iframe id="treewidth-paper-frame" title="Quinto art&iacute;culo, documento PDF en ingl&eacute;s" src="TREEWIDTH_TENSOR_CRT/paper_treewidth_tensor_crt.pdf#view=FitH&amp;toolbar=1&amp;navpanes=0"></iframe>
         </div>
       </div>
     </dialog>

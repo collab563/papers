@@ -1,0 +1,383 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\title{Exact Transfer Recurrence and Phase Root Count for $n=4$}
+\author{Wendel Le\'on Alvarado}
+\date{November 12, 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We give an exact finite-state frontier transfer for the $n=4$ Ehrhart
+polynomials and prove its cubic recurrence for every layer parameter.
+The squared factor $q_6^2$ in the characteristic discriminant creates
+two eigenvalue contacts inside the audited interval. Tracking the
+analytic eigenvalue branch gives a phase change of $-3\pi$, while its
+spectral coefficient cannot be continued as a single continuous branch
+through both contacts. Splitting at these contacts and applying
+80-digit interval bounds gives $k$ strict sign changes in each of three
+windows for every $k\geq3$. Degree saturation, together with exact
+Sturm verification of the first actual case $k=2$, proves that every
+polynomial associated with the order-polytope family ($k\geq2$) has
+exactly $3k$ distinct, real, negative roots. The $k=1$ polynomial used
+in the recurrence is an auxiliary seed, not an Ehrhart polynomial of
+this family.
+\end{abstract}
+
+\section{Exact frontier transfer}
+The order-polytope family considered here is indexed by $k\geq2$.
+To state the recurrence from its first transfer step, define the
+auxiliary sequence
+\[
+ \widehat H_{0,4}=1,\qquad
+ \widehat H_{1,4}=t^3+11t^2+11t+1,\qquad
+ \widehat H_{k,4}=H_{k,4}\quad(k\geq2).
+\]
+In particular, $\widehat H_{1,4}$ is a recurrence seed and is not
+$h^*(\mathcal O(C_{1,4}))$.
+Let $h=(h_0,h_1,h_2,h_3)$ describe an order ideal at a cut with $q$
+complete layers: column $i$ contains its first $h_i$ elements. The
+constraints are
+\[
+  \sum_i h_i=4q,\qquad 0\leq h_i\leq q+1,\qquad
+  h_i\leq h_{i-1}+1
+\]
+with cyclic indices. Put $d_i=h_i-q$. Then $\sum_i d_i=0$ and $d_i\leq
+1$, so $d_i\geq-3$. For every $q\geq3$, the admissible deviation vectors
+therefore lie in the same fixed finite set
+\[
+  d_i\in\{-3,-2,-1,0,1\},\qquad
+  \sum_i d_i=0,\qquad d_i\leq d_{i-1}+1.
+\]
+A maximal element in column $c$ is its top element and exists precisely
+when $h_c>0$ and $h_{c+1}\leq h_c$. The canonical state records the
+occupancy masks of rows $q-1$ and $q$, together with the last element's
+row offset $d_c$ and column $c$. Exact enumeration gives 20 states.
+The canonical state sets at $q=2$ and $q=3$ also agree, so the same
+one-layer transition applies from the base window onward.
+
+Adding one layer uses only these two boundary rows. The descent weight
+depends on the previous element's relative row and column, not on $q$.
+Thus the transition matrix $M(t)$ is independent of the number of
+complete layers. Prefix and suffix vectors $v(t)$ and $u(t)$, obtained
+from the three-layer base window, give
+\[
+  H_{k,4}(t)=u(t)M(t)^{k-3}v(t),\qquad k\geq3.
+\]
+All arithmetic here is in $\mathbb Z[t]$. The exact 20-state computation
+verifies
+\[
+  \bigl(M^3-P_4M^2-Q_4M-R_4I\bigr)v=0,
+\]
+where
+\[
+\begin{aligned}
+P_4(t)&=t^3+23t^2+23t+1,\\
+Q_4(t)&=7t^5-28t^4-22t^3-28t^2+7t,\\
+R_4(t)&=t(t-1)^6(t+1).
+\end{aligned}
+\]
+Multiplying the vector identity by $uM^j$ proves the scalar recurrence
+for all $k\geq6$; exact checks at $k=3,4,5$ supply the initial cases.
+Consequently,
+\[
+  \widehat H_{k,4}
+  =P_4\widehat H_{k-1,4}
+   +Q_4\widehat H_{k-2,4}
+   +R_4\widehat H_{k-3,4}
+  \qquad(k\geq3).
+\]
+The transfer also reproduces the exact certificate polynomials
+$H_{3,4}$, $H_{4,4}$, and $H_{5,4}$. The finite dynamic-programming
+data independently verifies the same identity for $3\leq k\leq12$.
+The vector annihilator is sufficient for this scalar recurrence; we do
+not claim that the full $20\times20$ characteristic polynomial equals
+the displayed cubic.
+
+The proposed second-order relation with constant boundary term
+\[
+H_{k,4}-P_4H_{k-1,4}-Q_4H_{k-2,4}=R_4
+\]
+is false. The exact residuals for $k=4$ and $k=5$ are, respectively,
+\[
+\begin{aligned}
+k=4:\;&t^2(t-1)^6(t+1)(t^2+11t+11),\\
+k=5:\;&t^2(t-1)^6(t+1)\cdot
+(t^5+38t^4+263t^3+484t^2+263t+38).
+\end{aligned}
+\]
+
+\section{Phase audit and root-count consequence}
+The audited interval is
+\[
+ I_4=(\beta_-,\beta_+),\qquad
+ \beta_\pm=\frac{z_0\pm\sqrt{z_0^2-4}}2,\qquad
+ z_0=-38-24\sqrt3.
+\]
+It is reciprocal-symmetric, contains $t=-1$, and covers both sides of
+$-1$. The phase calculation uses the eigenvalue branch
+\(\widetilde\lambda_2\) with positive imaginary part. The discriminant
+factors exactly as
+\[
+\Delta_X(t)=-4tq_4(t)q_6(t)^2,
+\]
+where
+\[
+ q_4=t^4+76t^3-282t^2+76t+1,\qquad
+ q_6=t^6+7t^5+27t^4+58t^3+27t^2+7t+1.
+\]
+There are exactly two simple roots of $q_6$ in $I_4$,
+\[
+ \tau_1=-3.4372313754626764\ldots,\qquad
+ \tau_2=-0.2909318258697067\ldots,
+\]
+with signs $q_6:+,-,+$ on the three successive windows. The roots are
+isolated by rational intervals in the machine-readable certificate.
+Only $t=-1$ is a root of $R_4=t(t-1)^6(t+1)$ in $I_4$.
+
+Put $p=-Q_4-P_4^2/3$, $q=-2P_4^3/27-P_4Q_4/3-R_4$, and let $s(t)$
+be the simple real root of $s^3+ps+q=0$. Writing
+$D=3s^2+p>0$, exact reduction modulo this cubic gives
+\[
+ \left(\frac{3s^2}{4}+p\right)D^2=tq_4q_6^2.
+\]
+Thus the analytic eigenvalue branch initialized in the upper half-plane
+has
+\[
+ \widetilde\lambda_2(t)
+ =-\frac{s}{2}+\frac{P_4}{3}
+   +i\,q_6(t)\frac{\sqrt{tq_4(t)}}{D}.
+\]
+The signed imaginary part is allowed to change sign at both $q_6$ roots.
+At $\tau_1$ the double eigenvalue is positive and the branch crosses
+the positive real axis from above to below. At $\tau_2$ the double
+eigenvalue is negative and the branch crosses the negative real axis
+from below to above. The latter crossing requires subtracting $2\pi$
+from the principal argument. Consequently the continuous analytic
+eigenvalue lift has
+\[
+ \Delta\arg\widetilde\lambda_2=-3\pi.
+\]
+The old $-\pi$ value is the winding of the reflected,
+positive-imaginary-part branch. No factor $W(t)$ or normalization is
+responsible for the missing turn.
+
+There is an important obstruction to assigning a global continuous
+phase to the coefficient of this analytic eigenvalue branch. At the
+two contacts the interval-enclosed one-sided upper-branch coefficient
+limits are,
+respectively,
+\[
+ \begin{aligned}
+ \widetilde c_2^+(\tau_1)
+  &=0.34665821575\ldots+0.12174458208\ldots i,\\
+ \widetilde c_2^+(\tau_2)
+  &=0.34665821575\ldots-0.12174458208\ldots i.
+ \end{aligned}
+\]
+Their arguments have absolute value
+$\theta_1,\theta_2\in(0,\pi/4)$, certified with 80-digit interval
+arithmetic. Following the analytic eigenvalue through a contact
+requires conjugating its coefficient, so the one-sided coefficient
+limits are not equal. To check the confluent representation, set
+$D_6=P_4^2+3Q_4$, $\nu_d=-(P_4Q_4+9R_4)/2$, and
+$\nu_s=P_4D_6-2\nu_d$. Exact reduction gives
+\[
+ D_6^2H_{3,4}-D_6(\nu_s+\nu_d)H_{2,4}
+       +\nu_s\nu_d \widehat H_{1,4}\equiv0\pmod{q_6}.
+\]
+Since the repeated and simple eigenvalues are nonzero and distinct at
+these contacts, this identity removes the generalized $k\lambda^k$
+term. The confluent pair formula is therefore valid there, but there
+is no single global continuous $\arg\widetilde c_2$ to combine with the
+$-3\pi$ eigenvalue lift.
+
+For root counting, use the upper-half-plane eigenvalue and coefficient
+separately on each of the three open windows. Their limiting phases give
+\[
+\begin{array}{c|c|c|c}
+ \text{endpoint}&\arg\widetilde\lambda_2^+
+ &\arg\widetilde c_2^+&\Phi_k^+\\ \hline
+ \beta_-&\pi&\pi/2&(k+\tfrac12)\pi\\
+ \tau_1&0&\theta_1&\theta_1\\
+ \tau_2&\pi&-\theta_2&k\pi-\theta_2\\
+ \beta_+&0&-\pi/2&-\pi/2
+\end{array}
+\qquad
+\Phi_k^+=\arg\widetilde c_2^+
+                 +k\arg\widetilde\lambda_2^+.
+\]
+The exact coefficient formulas are continuous on each window, and the
+two contact values are their certified one-sided limits. The
+2,000-cell, 80-digit interval audit proves
+\[
+ \mathcal E_2(t)<0.02,\qquad
+ \frac{|\lambda_1(t)|}{|\lambda_2(t)|}<0.24
+ \quad(t\in I_4).
+\]
+Hence for every $k\geq2$,
+$\mathcal E_k\leq\mathcal E_2<0.02<1/\sqrt2$. At phase levels that
+are integer multiples of $\pi$, or at a contact phase $\theta_i$ or
+$k\pi-\theta_i$, the dominant pair therefore determines the strict
+sign of $H_{k,4}$.
+
+For $k\geq3$, the following ordered sample levels lie in the indicated
+windows and have alternating signs:
+\[
+\begin{array}{ll}
+(\beta_-,\tau_1):&
+ k\pi,(k-1)\pi,\ldots,\pi,\theta_1,\\
+(\tau_1,\tau_2):&
+ \theta_1,\pi,2\pi,\ldots,(k-1)\pi,k\pi-\theta_2,\\
+(\tau_2,\beta_+):&
+ k\pi-\theta_2,(k-1)\pi,\ldots,\pi,0.
+\end{array}
+\]
+The phase is continuous on each window and its endpoint limits bracket
+the listed levels, so the intermediate value theorem supplies ordered
+sample points even without a monotonicity claim. Their strict
+alternating signs give at least $k$ sign changes in each window.
+The recurrence has degree $3k$ with leading coefficient $1$ (the
+$P_4H_{k-1,4}$ term supplies the leading term), so these $3k$ distinct
+negative roots exhaust the degree. The actual first case $H_{2,4}$ has
+six negative roots by exact Sturm. Thus every Ehrhart polynomial
+$H_{k,4}$ in the stated family has exactly $3k$ distinct negative roots
+for $k\geq2$. Separately, exact Sturm verifies that the auxiliary
+recurrence seed $\widehat H_{1,4}$ has three distinct negative roots;
+this is not a statement about a $k=1$ order polytope.
+Independent exact Sturm checks for $k=3,\ldots,12$ place all $3k$ roots
+in $[-79,-1/79]\subset I_4$.
+
+The 80-digit derivative enclosures at the two $q_6$ contacts are
+\[
+\begin{array}{c|r|r|r|l}
+ &\lambda_{\rm simple}&\lambda_{\rm double}
+ &\lambda_{\rm simple}'&\widetilde\lambda_2'\\ \hline
+ \tau_1&
+ 13.04455168&70.01231057&-10.09722209&
+ -44.78587130-23.18722179i\\
+ \tau_2&
+ -0.32122021&-1.72404306&0.37472125&
+ 4.74816937+6.74590077i
+\end{array}
+\]
+At $\beta_-$ and $\beta_+$, the repeated eigenvalue pair has unbounded
+derivatives because $q_4$ has a simple zero there; the remaining
+eigenvalue derivatives are enclosed near $19823.30482837$ and
+$269.20437641$, respectively. At $t=-1$, the eigenvalues are
+$0,\pm4\sqrt3\,i$, with derivatives $-4/3$ and
+$-28/3\mp6\sqrt3\,i$. All rational isolators and full interval
+enclosures are recorded in
+\texttt{certificado\_teorema\_n4.json}.
+
+\section{Spectrum and roots in the right exterior window}
+Write $\alpha=-\beta_+$, so
+$\alpha=0.012569659525542648674850600415\ldots$. The characteristic
+discriminant factors exactly as
+\[
+ \Delta_X(t)=-4t\,q_4(t)\,q_6(t)^2,
+\]
+where
+\[
+q_4=t^4+76t^3-282t^2+76t+1,\qquad
+q_6=t^6+7t^5+27t^4+58t^3+27t^2+7t+1.
+\]
+There is exactly one $q_4$ zero in $(-1,0)$, namely $-\alpha$.
+There is also one $q_6$ zero in $(-1,0)$, isolated in
+$(-1/3,-1/4)$; it lies strictly inside $I_4$, to the left of
+$-\alpha$. Hence there is no discriminant zero in $(-\alpha,0)$.
+Since $t<0$ and $q_4(t)>0$ there, $\Delta_X(t)>0$: all three
+eigenvalues are real and simple throughout this open window.
+Indeed, with $z=t+t^{-1}$, the two factors reduce to
+$q_4/t^2=z^2+76z-284$ and
+$q_6/t^3=z^3+7z^2+24z+44$; the exact Sturm isolations select the
+negative roots described above.
+
+An equal-modulus pair of distinct real eigenvalues must be opposite.
+That requires
+\[
+ P_4Q_4+R_4=
+ 8t(t+1)(t^2-5t+1)(t^4+20t^3+22t^2+20t+1)=0.
+\]
+The negative roots of this expression are outside $(-\alpha,0)$.
+Thus no eigenvalue-modulus crossing occurs in the right window. At the
+rational sample $t=-1/1000$, 80-digit interval enclosures isolate the
+eigenvalues in increasing order near
+$-0.02831489035$, $0.03664098649$, and $0.96869690286$.
+The last is the unique dominant positive eigenvalue, and its coefficient
+is enclosed near $1.02552505798$. Continuity and the absence of modulus
+ties keep this positive real branch dominant throughout $(-\alpha,0)$.
+
+Using $\widehat H_{0,4},\widehat H_{1,4},H_{2,4}$, write
+\[
+ c_j=\frac{N(\lambda_j)}{\partial_X\chi_4(\lambda_j)},\qquad
+ N(X)=X^2\widehat H_{0,4}
+       +X(\widehat H_{1,4}-P_4\widehat H_{0,4})
+       +(H_{2,4}-P_4\widehat H_{1,4}-Q_4\widehat H_{0,4}).
+\]
+The exact resultant is
+\[
+ \operatorname{Res}_X(\chi_4,N)
+   =16t^2(t-1)^2q_6(t)^2.
+\]
+It has no zero in $(-\alpha,0)$; consequently none of the three
+simple-mode coefficients vanishes there, and the dominant coefficient
+$c_1$ stays positive. There is therefore no second complex-dominance
+window and no alternating pair with equal modulus in $(-\alpha,0)$.
+
+Exact Sturm counts for recurrence-generated $H_{k,4}$ give:
+\[
+\begin{array}{c|rrrrrrrrrr}
+k&3&4&5&6&7&8&9&10&11&12\\ \hline
+\#\text{ roots in }I_4&9&12&15&18&21&24&27&30&33&36\\
+\#\text{ roots in }(-\alpha,0)&0&0&0&0&0&0&0&0&0&0\\
+\#\text{ roots in }(-\infty,-1/\alpha)&0&0&0&0&0&0&0&0&0&0
+\end{array}
+\]
+Indeed, all $3k$ roots are counted in the rational interval
+$[-79,-1/79]\subset I_4$, so degree saturation leaves no roots in
+either exterior window. The proposed $(k,k,k)$ split is therefore
+already contradicted by exact data: for $k=3,\ldots,12$ the distribution
+is $(3k,0,0)$, not $(k,k,k)$.
+
+This exterior-window analysis is consistent with, but is not needed for,
+the all-$k$ root count: the three-window argument above already places
+all $3k$ roots inside $I_4$. The finite Sturm table additionally shows
+that for $k=3,\ldots,12$ none lies in either exterior window.
+
+\section{Alternative routes and scope}
+The Borcea--Br\"anden calculations certify real-rootedness of 1,242
+specific polynomials and 1,097 specific interlacing pairs. However, the
+tested global transition operator has 323 negative $2\times2$ minors
+among 12,938; an exact witness is $-t$. Thus this total-nonnegativity
+route fails, without ruling out every possible stability-preserving
+operator argument.
+
+The Lee--Yang substitution
+$H(t)=t^mQ(t+t^{-1})$, followed by exact Sturm isolation, certifies
+individual supplied reciprocal polynomials. It supplies no uniform
+in-$k$ Sturm or discriminant argument. Exact coefficient checks confirm
+palindromicity for the computed cases, but do not by themselves imply
+that all $3k$ roots are real and negative.
+
+\section{Conclusion and reproducibility}
+The cubic recurrence is now structurally proved for every $k\geq3$ by
+the exact frontier transfer, with the auxiliary seed specified above.
+The signed branch identity at the two $q_6$ contacts, the three-window
+phase samples, and the global interval error bound prove exactly $3k$
+distinct negative roots for every actual family member $k\geq3$.
+Exact Sturm verifies the first actual case $k=2$, completing the
+real-rootedness theorem for every $k\geq2$. The auxiliary seed
+$\widehat H_{1,4}$ separately has three negative roots. For the
+additional finite checks $k=3,\ldots,12$, all roots lie in
+$[-79,-1/79]\subset I_4$.
+The machine-readable identities and interval data are in
+\texttt{certificado\_teorema\_n4.json}. Run the reproducible checks in
+this order:
+\begin{itemize}
+\item \texttt{certify\_n4\_unconditional\_theorem.py}
+\item \texttt{verify\_n4\_frontier\_transfer.py}
+\item \texttt{audit\_n4\_right\_window.py}
+\item \texttt{audit\_n4\_q6\_branch.py}
+\end{itemize}
+\end{document}

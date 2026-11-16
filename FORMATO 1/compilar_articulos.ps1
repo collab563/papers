@@ -11,7 +11,7 @@ if (-not $compiler) {
 
 $buildRoot = Join-Path $env:TEMP "crown-order-paper-build"
 $documents = @(
-    @{ Source = "aticulo.tex"; Pdf = "aticulo.pdf"; Build = "english" },
+    @{ Source = "articulo.tex"; Pdf = "articulo.pdf"; Build = "english" },
     @{ Source = "articulo_es.tex"; Pdf = "articulo_es.pdf"; Build = "spanish" }
 )
 
@@ -58,7 +58,7 @@ function Build-Papers {
 Build-Papers
 
 if ($Watch) {
-    Write-Host "Vigilando aticulo.tex y articulo_es.tex. Ctrl+C para terminar."
+    Write-Host "Vigilando articulo.tex y articulo_es.tex. Ctrl+C para terminar."
     $sources = $documents | ForEach-Object {
         Join-Path $formatDirectory $_.Source
     }
